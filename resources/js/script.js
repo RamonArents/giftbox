@@ -1,0 +1,12 @@
+/*
+      Sends request to Raspberry PI to turn on the LED matrix
+      @return void
+*/
+window.sendRequestToRaspberry = function ()
+{
+    let xhr = new XMLHttpRequest();
+    let url = "gpio.py";
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xhr.send();
+}

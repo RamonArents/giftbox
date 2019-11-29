@@ -1,0 +1,52 @@
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.background img {
+  width: 100%;
+  vertical-align: top;
+}
+
+.background:after {
+  content: "\A";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+}
+
+.content {
+  text-align: center;
+  margin-top: 25%;
+}
+
+.homepage-button a {
+  font-size: 2.5em;
+  border-radius: 20px;
+  background: none;
+  border: 5px solid white;
+  color: white;
+  width: 500px;
+}
+
+.homepage-button a:hover {
+  color: black;
+  background-color: white;
+  -webkit-transition: 1s;
+  transition: 1s;
+}
+
+.doneer-button button {
+  font-size: 2.5em;
+  border-radius: 20px;
+  background: none;
+  border: 5px solid black;
+  width: 400px;
+}
+
