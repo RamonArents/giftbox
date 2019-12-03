@@ -42,7 +42,7 @@
   transition: 1s;
 }
 
-.doneer-button button {
+.doneer-buttons {
   font-size: 2.5em;
   border-radius: 20px;
   background: none;

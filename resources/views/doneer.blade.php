@@ -13,7 +13,13 @@
                     width="620"></iframe>
             <div class="doneer-button">
                 <!--create the payment method later before going to the server page (to put the LED on)-->
-                <button type="button" onclick=sendRequestToRaspberry()>Steek kaarsje aan.</button>
+                <button class="doneer-buttons" type="button" onclick=sendRequestToRaspberry()>Steek kaarsje aan. (verzilveren)</button>
+                <br>
+                <br>
+                <!--Buy ticket to use on website-->
+                <form action="{{ action('UserPageController@pay') }}" method="get">
+                    <input class="doneer-buttons" type="submit" name="payment" value="Koop code">
+                </form>
             </div>
 
         </div>
