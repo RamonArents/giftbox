@@ -35,13 +35,9 @@ class UserPageController extends Controller
      */
     public function pay(){
         try {
-            /*
-             * Initialize the Mollie API library with your API key.
-             *
-             * See: https://www.mollie.com/dashboard/developers/api-keys
-             */
-            $mollie = new \Mollie\Api\MollieApiClient();
-            $mollie->setApiKey("test_VwV3F2FxUxPPmRhyBJTQwCK4yKQcEH");
+            //initialize Mollie
+            $mollie = $this->APIKeyData();
+
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -77,15 +73,12 @@ class UserPageController extends Controller
              * Send the customer off to complete the payment.
              * This request should always be a GET, thus we enforce 303 http response code
              */
-            header("Location: " . $payment->getCheckoutUrl(), true, 303);
 
-
-            $payment = $mollie->payments->get($payment->id);
-            return redirect($payment->getCheckoutUrl());
-
+            return redirect($payment->getCheckoutUrl(), 303);
+            //$payment = $mollie->payments->get($payment->id);
 
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
-            echo "API call failed: " . htmlspecialchars($e->getMessage());
+            echo "API call failed: (Pay)" . htmlspecialchars($e->getMessage());
         }
     }
 
@@ -94,49 +87,56 @@ class UserPageController extends Controller
      * @param the order id
      * @returns, the payed view with success or error
      */
-    public function checkPayment($paymentId){
+   public function checkPayment($paymentId){
+        try {
+            //initiaLize Mollie
+            $mollie = $this->APIKeyData();
 
+            $payment = $mollie->payments->get($paymentId);
 
 
             if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
-                /*
-                 * The payment is paid and isn't refunded or charged back.
-                 * At this point you'd probably want to start the process of delivering the product to the customer.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'betaald']);
             } elseif ($payment->isOpen()) {
-                /*
-                 * The payment is open.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'open']);
             } elseif ($payment->isPending()) {
-                /*
-                 * The payment is pending.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'bezig']);
             } elseif ($payment->isFailed()) {
-                /*
-                 * The payment has failed.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'mislukt']);
             } elseif ($payment->isExpired()) {
-                /*
-                 * The payment is expired.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'verlopen']);
             } elseif ($payment->isCanceled()) {
-                /*
-                 * The payment has been canceled.
-                 */
+                return view('paystatus', ['orderId' => $paymentId, 'payStatus' => 'geannuleerd']);
             } elseif ($payment->hasRefunds()) {
                 /*
                  * The payment has been (partially) refunded.
                  * The status of the payment is still "paid"
                  */
+                return redirect(route('payed', ['orderId' => $paymentId, 'payStatus' => 'betaald']));
             } elseif ($payment->hasChargebacks()) {
                 /*
                  * The payment has been (partially) charged back.
                  * The status of the payment is still "paid"
                  */
+                return redirect(route('payed', ['orderId' => $paymentId, 'payStatus' => 'betaald']));
             }
+        } catch (\Mollie\Api\Exceptions\ApiException $e) {
+            echo "API call failed (checkPayment): " . htmlspecialchars($e->getMessage());
+        }
     }
 
+    /*
+     * This function contains the API key for mollie
+     * @returns Mollie payment object
+     */
     protected function APIKeyData(){
-
+        /*
+         * Initialize the Mollie API library with your API key.
+         *
+         * See: https://www.mollie.com/dashboard/developers/api-keys
+         */
+        $mollie = new \Mollie\Api\MollieApiClient();
+        $mollie->setApiKey("test_VwV3F2FxUxPPmRhyBJTQwCK4yKQcEH");
+        return $mollie;
     }
 }
