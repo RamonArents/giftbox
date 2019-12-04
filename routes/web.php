@@ -15,7 +15,7 @@
 Route::get('/', 'UserPageController@getHomePage')->name('homepage');
 Route::get('/doneer', 'UserPageController@getDoneerPage')->name('donatiepage');
 Route::get('/pay', 'UserPageController@pay')->name('pay');
-Route::get('//payments/return.php?order_id={orderId}', 'UserPageController@payed')->name('payed');
+Route::get('/payment/{orderId}', 'UserPageController@payed')->name('payed');
 //register, login (only for admin)
 Auth::routes();
 //homepage

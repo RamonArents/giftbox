@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 class UserPageController extends Controller
 {
+
     /*
      * Function to return the homepage
      * @return view welcome.blade
@@ -22,10 +23,11 @@ class UserPageController extends Controller
     }
     /*
     * Function to return the success or failure page when someone has payed
+    * @param, the orderid
     * @return view payed.blade
     */
-    public function payed(){
-        return view('payed');
+    public function payed($orderId){
+        return view('payed', ['orderId' => $orderId]);
     }
     /*
      * Function to send payment with the API
@@ -35,6 +37,8 @@ class UserPageController extends Controller
         try {
             /*
              * Initialize the Mollie API library with your API key.
+             *
+             * See: https://www.mollie.com/dashboard/developers/api-keys
              */
             $mollie = new \Mollie\Api\MollieApiClient();
             $mollie->setApiKey("test_VwV3F2FxUxPPmRhyBJTQwCK4yKQcEH");
@@ -63,7 +67,7 @@ class UserPageController extends Controller
                     "value" => "1.00" // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
                 "description" => "Order #{$orderId}",
-                "redirectUrl" => "{$protocol}://{$hostname}{$path}/payments/return.php?order_id={$orderId}",
+                "redirectUrl" => route('payed', ['orderId' => $orderId]),
                 "webhookUrl" => "https://webshop.example.org/mollie-webhook/",
                 "metadata" => [
                     "order_id" => $orderId,
@@ -75,17 +79,64 @@ class UserPageController extends Controller
              */
             header("Location: " . $payment->getCheckoutUrl(), true, 303);
 
-            $payment = $mollie->payments->get($payment->id);
-            dd($payment);
 
-//            if ($payment->isPaid())
-//            {
-//                echo "Payment received.";
-//            }else{
-//                echo "Payment not received.";
-//            }
+            $payment = $mollie->payments->get($payment->id);
+            return redirect($payment->getCheckoutUrl());
+
+
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
             echo "API call failed: " . htmlspecialchars($e->getMessage());
         }
+    }
+
+    /*
+     * Check if the user has payed
+     * @param the order id
+     * @returns, the payed view with success or error
+     */
+    public function checkPayment($paymentId){
+
+
+
+            if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
+                /*
+                 * The payment is paid and isn't refunded or charged back.
+                 * At this point you'd probably want to start the process of delivering the product to the customer.
+                 */
+            } elseif ($payment->isOpen()) {
+                /*
+                 * The payment is open.
+                 */
+            } elseif ($payment->isPending()) {
+                /*
+                 * The payment is pending.
+                 */
+            } elseif ($payment->isFailed()) {
+                /*
+                 * The payment has failed.
+                 */
+            } elseif ($payment->isExpired()) {
+                /*
+                 * The payment is expired.
+                 */
+            } elseif ($payment->isCanceled()) {
+                /*
+                 * The payment has been canceled.
+                 */
+            } elseif ($payment->hasRefunds()) {
+                /*
+                 * The payment has been (partially) refunded.
+                 * The status of the payment is still "paid"
+                 */
+            } elseif ($payment->hasChargebacks()) {
+                /*
+                 * The payment has been (partially) charged back.
+                 * The status of the payment is still "paid"
+                 */
+            }
+    }
+
+    protected function APIKeyData(){
+
     }
 }
