@@ -19,6 +19,8 @@ Route::post('/pay', 'UserPageController@pay')->name('pay');
 Route::get('/payment/{orderId}', 'UserPageController@payed')->name('payed');
 //webhook URL
 Route::get('/webhook', 'UserPageController@finishPayment')->name('webhook');
+// mail URL
+Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
 //register, login (only for admin)
 Auth::routes();
 //homepage

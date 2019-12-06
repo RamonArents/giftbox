@@ -86,19 +86,20 @@ class UserPageController extends Controller
             $ticket->paymentStatus = $this->checkPayment($payment->id);
             $ticket->used = false;
             //TODO: to test email, move this code later to the finishPayment function
-            //$ticket->save();
+            $ticket->save();
+            return redirect()->route('sendmail', ['paymentId' => $payment->id]);
             //check if the user wants to pay with ideal or paypal
-            if($request->input('paymethod') == 'ideal'){
-                $payUrl = $payment->getCheckoutUrl();
-            }else{
-                //TODO: Put the right link here later
-                $payUrl = 'Paypal';
-            }
-            /*
-             * Send the customer off to complete the payment.
-             * This request should always be a GET, thus we enforce 303 http response code
-             */
-            return redirect($payUrl, 303);
+//            if($request->input('paymethod') == 'ideal'){
+//                $payUrl = $payment->getCheckoutUrl();
+//            }else{
+//                //TODO: Put the right link here later
+//                $payUrl = 'Paypal';
+//            }
+//            /*
+//             * Send the customer off to complete the payment.
+//             * This request should always be a GET, thus we enforce 303 http response code
+//             */
+//            return redirect($payUrl, 303);
 
 
         } catch (\Mollie\Api\Exceptions\ApiException $e) {

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="flex-center position-ref full-height">
-        @include('messages')
+        @include('messages.messages')
         <div class="text-center">
             <!--livestream by twitch-->
             <iframe
