@@ -11,6 +11,7 @@ class Mailtrap extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $email;
     public $orderNumber;
 
     /**
@@ -18,8 +19,9 @@ class Mailtrap extends Mailable
      *
      * @return void
      */
-    public function __construct($orderNumber)
+    public function __construct($email, $orderNumber)
     {
+        $this->email = $email;
         $this->orderNumber = $orderNumber;
     }
 
@@ -31,7 +33,7 @@ class Mailtrap extends Mailable
     public function build()
     {
         return $this->from('giftbox@giftbox.com', 'Mailtrap')
-            ->to('ramonarents@hotmail.com')
+            ->to($this->email)
             ->subject('Orderbevestiging giftbox')
             ->view('mail.mail', ['orderNumber' => $this->orderNumber]);
     }

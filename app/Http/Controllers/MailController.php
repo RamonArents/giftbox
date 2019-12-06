@@ -17,9 +17,10 @@ class MailController extends Controller
 
         $order = Ticket::where('payment_id', $paymentId)->first();
 
+        $email = $order->email;
         $orderNumber = $order->orderNumber;
 
-        Mail::to('ramonarents@hotmail.com')->send(new Mailtrap($orderNumber));
+        Mail::to($email)->send(new Mailtrap($email, $orderNumber));
 
         return redirect()->route('donatiepage')->with('success', 'De code is succesvol verzonden. Check u email (ook uw spam folder).');
     }
