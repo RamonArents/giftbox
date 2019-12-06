@@ -48,9 +48,9 @@ class UserPageController extends Controller
             /*
              * Determine the url parts to these example files.
              */
-            $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
-            $hostname = $_SERVER['HTTP_HOST'];
-            $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
+//            $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
+//            $hostname = $_SERVER['HTTP_HOST'];
+//            $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
             /*
              * Payment parameters:
              *   amount        Amount in EUROs.
@@ -78,18 +78,27 @@ class UserPageController extends Controller
             ]);
 
 
-
+            //create the data to store in DB
             $ticket = new Ticket;
             $ticket->email = $request->input('email');
             $ticket->payment_id = $payment->id;
             $ticket->orderNumber = $orderId;
             $ticket->paymentStatus = $this->checkPayment($payment->id);
             $ticket->used = false;
+            //TODO: to test email, move this code later to the finishPayment function
+            //$ticket->save();
+            //check if the user wants to pay with ideal or paypal
+            if($request->input('paymethod') == 'ideal'){
+                $payUrl = $payment->getCheckoutUrl();
+            }else{
+                //TODO: Put the right link here later
+                $payUrl = 'Paypal';
+            }
             /*
              * Send the customer off to complete the payment.
              * This request should always be a GET, thus we enforce 303 http response code
              */
-            return redirect($payment->getCheckoutUrl(), 303);
+            return redirect($payUrl, 303);
 
 
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
