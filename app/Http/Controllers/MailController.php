@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Ticket;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Mailtrap;
 
@@ -11,15 +10,17 @@ class MailController extends Controller
 {
     /*
      * Sends confirmation mail to user
-     * @params $request (ticket from user), $orderId (the ticket orderId)
-     * @return
+     * @params $paymentId (the ticket with the user payment_id)
+     * @return Redirect to the doneer blade. The user wil receive a mail with the ticket code
      */
-    public function ship(Request $request, $paymentId){
+    public function ship($paymentId){
 
         $order = Ticket::where('payment_id', $paymentId)->first();
 
         $orderNumber = $order->orderNumber;
 
         Mail::to('ramonarents@hotmail.com')->send(new Mailtrap($orderNumber));
+
+        return redirect()->route('donatiepage')->with('success', 'De code is succesvol verzonden. Check u email (ook uw spam folder).');
     }
 }
