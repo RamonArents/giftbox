@@ -66,6 +66,7 @@ class UserPageController extends Controller
                 ],
                 "description" => "Order #{$orderId}",
                 "redirectUrl" => route('payed', ['orderId' => $orderId]),
+                //TODO: This link works only online (not localhost). The route should call the finishPayment function
                 "webhookUrl" => "https://webshop.example.org/mollie-webhook/",
                 "metadata" => [
                     "order_id" => $orderId,
@@ -80,6 +81,7 @@ class UserPageController extends Controller
 
             $ticket = new Ticket;
             $ticket->email = $request->input('email');
+            $ticket->payment_id = $payment->id;
             $ticket->orderNumber = $orderId;
             $ticket->paymentStatus = $this->checkPayment($payment->id);
             $ticket->used = false;
@@ -108,7 +110,9 @@ class UserPageController extends Controller
         $ticket->paymentStatus = $payStatus;
         $ticket->save();
 
-        return redirect()->route('doneer');
+        //TODO: call here function to send email with the Order data
+
+        return redirect()->route('doneer')->with('success', 'Code is succesvol betaald. Check u email.');
     }
 
     /*
@@ -120,7 +124,7 @@ class UserPageController extends Controller
         try {
             //status payment
             $payStatus = '';
-            //initiaLize Mollie
+            //initialize Mollie
             $mollie = $this->APIKeyData();
 
             $payment = $mollie->payments->get($paymentId);

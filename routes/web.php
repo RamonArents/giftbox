@@ -14,8 +14,11 @@
 // User routes
 Route::get('/', 'UserPageController@getHomePage')->name('homepage');
 Route::get('/doneer', 'UserPageController@getDoneerPage')->name('donatiepage');
+// payment routes
 Route::post('/pay', 'UserPageController@pay')->name('pay');
 Route::get('/payment/{orderId}', 'UserPageController@payed')->name('payed');
+//webhook URL
+Route::get('/webhook', 'UserPageController@finishPayment')->name('webhook');
 //register, login (only for admin)
 Auth::routes();
 //homepage

@@ -50,3 +50,8 @@
   width: 400px;
 }
 
+.buy-ticket input[type=email] {
+  width: 300px;
+  margin-left: 40%;
+}
+

@@ -19,9 +19,10 @@
                 <!--Buy ticket to use on website-->
                 <form action="{{ action('UserPageController@pay') }}" method="post">
                     {{ csrf_field() }}
-                    <input type="email" name="email" required/>
-                    <br>
-                    <br>
+                    <div class="form-group buy-ticket">
+                        <label for="email">Email:</label><br>
+                        <input class="form-control" id="email" type="email" name="email" required/>
+                    </div>
                     <input class="doneer-buttons" type="submit" name="payment" value="Koop code">
                 </form>
             </div>
