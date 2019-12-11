@@ -172,6 +172,14 @@ class UserPageController extends Controller
     }
 
     /*
+     * Function to get the LEDS
+     * @return json file
+     */
+    public function getLeds(){
+        return response()->file(storage_path('ledjes.json'));
+    }
+
+    /*
      * This function contains the API key for mollie
      * @return Mollie payment object
      */

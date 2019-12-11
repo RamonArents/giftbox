@@ -21,6 +21,8 @@ Route::get('/payment/{orderId}', 'UserPageController@payed')->name('payed');
 Route::get('/webhook', 'UserPageController@finishPayment')->name('webhook');
 // mail URL
 Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
+//route that gets json file to target LEDS
+Route::get('/jsonLED', 'UserPageController@getLeds')->name('getLeds');
 //register, login (only for admin)
 Auth::routes();
 //homepage

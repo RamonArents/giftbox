@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>Bevestiging code</title>
     <style>
+        body{
+            font-family: "Nunito", sans-serif;
+        }
         header{
             background-color:#4d3a18;
             color:white;
@@ -11,8 +14,10 @@
             min-width: 100%;
             text-align: center;
             font-size:1.5em;
-            font-family: "Nunito", sans-serif;
             padding-top:5px;
+        }
+        p{
+            font-size:1em;
         }
     </style>
 </head>
