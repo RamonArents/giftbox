@@ -5,7 +5,7 @@
 
         <div class="content">
             <!-- If success-->
-                <p>Gefeliciteerd! U heeft betaald. U ontvangt u ticket met ordernummer {{ $orderId }} in uw mailbox.</p>
+                <p>Gefeliciteerd! U heeft betaald. U ontvangt u ticket met ordernummer in uw mailbox.</p>
             <!-- else failure-->
         </div>
     </div>

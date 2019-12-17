@@ -16,9 +16,12 @@ Route::get('/', 'UserPageController@getHomePage')->name('homepage');
 Route::get('/doneer', 'UserPageController@getDoneerPage')->name('donatiepage');
 // payment routes
 Route::post('/pay', 'UserPageController@pay')->name('pay');
-Route::get('/payment/{orderId}', 'UserPageController@payed')->name('payed');
-//webhook URL
-Route::get('/webhook', 'UserPageController@finishPayment')->name('webhook');
+// webhook url
+Route::get('/payment', 'UserPageController@payed')->name('webhook');
+//payed URL
+Route::get('/payed/{orderId}', 'UserPageController@finishPayment')->name('finish');
+//order status URL
+Route::get('/order-status/{order}/{payment}', 'UserPageController@getOrderStatus')->name('order_status');
 // mail URL
 Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
 //route that gets json file to target LEDS

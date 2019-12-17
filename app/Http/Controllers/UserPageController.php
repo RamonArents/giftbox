@@ -27,8 +27,8 @@ class UserPageController extends Controller
     * @param, the orderid
     * @return view payed.blade
     */
-    public function payed($orderId){
-        return view('payed', ['orderId' => $orderId]);
+    public function payed(){
+        return view('payed');
     }
     /*
      * Function to send payment with the API
@@ -65,14 +65,13 @@ class UserPageController extends Controller
                     "value" => "1.00" // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
                 "description" => "Order #{$orderId}",
-                "redirectUrl" => route('payed', ['orderId' => $orderId]),
-                //TODO: This link works only online (not localhost). The route should call the finishPayment function
-                "webhookUrl" => "https://webshop.example.org/mollie-webhook/",
+                "redirectUrl" => route('finish', ['orderId' => $orderId]),
+                "webhookUrl" => route('webhook'),
                 "metadata" => [
                     "order_id" => $orderId,
                 ],
             ]);
-            //send the data to the database
+            //validate the data to the database
             $this->validate($request, [
                 'email' => ['required', 'string', 'max:255'],
             ]);
@@ -83,23 +82,20 @@ class UserPageController extends Controller
             $ticket->email = $request->input('email');
             $ticket->payment_id = $payment->id;
             $ticket->orderNumber = $orderId;
-            $ticket->paymentStatus = $this->checkPayment($payment->id);
+            $ticket->paymentStatus = $payment->status;
             $ticket->used = false;
-            //TODO: to test email, move this code later to the finishPayment function
-            $ticket->save();
-            return redirect()->route('sendmail', ['paymentId' => $payment->id]);
             //check if the user wants to pay with ideal or paypal
-//            if($request->input('paymethod') == 'ideal'){
-//                $payUrl = $payment->getCheckoutUrl();
-//            }else{
-//                //TODO: Put the right link here later
-//                $payUrl = 'Paypal';
-//            }
-//            /*
-//             * Send the customer off to complete the payment.
-//             * This request should always be a GET, thus we enforce 303 http response code
-//             */
-//            return redirect($payUrl, 303);
+            if($request->input('paymethod') == 'ideal'){
+                $payUrl = $payment->getCheckoutUrl();
+            }else{
+                //TODO: Put the right link here later
+                $payUrl = 'Paypal';
+            }
+            /*
+             * Send the customer off to complete the payment.
+             * This request should always be a GET, thus we enforce 303 http response code
+             */
+            return redirect($payUrl, 303);
 
 
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
@@ -115,14 +111,21 @@ class UserPageController extends Controller
     public function finishPayment(Ticket $ticket){
         $payment = $this->payment->get($ticket->payment_id);
 
-        $payStatus = $this->checkPayment($payment->id);
+        if (!$payment->isPaid()) {
+            return view('order_status', [
+                'payment' => $payment,
+                'order' => $ticket,
+            ]);
+        }
 
-        $ticket->paymentStatus = $payStatus;
+        $ticket->status = 'betaald';
         $ticket->save();
 
-        //TODO: call here function to send email with the Order data
+        return redirect()->route('sendmail', ['paymentId' => $payment->id]);
+    }
 
-        return redirect()->route('doneer')->with('success', 'Code is succesvol betaald. Check u email.');
+    public function getOrderStatus(){
+        return view('order_status');
     }
 
     /*
