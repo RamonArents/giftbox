@@ -122,7 +122,7 @@ class UserPageController extends Controller
                 'order' => $ticket,
             ]);
         }
-        //TODO: Replace hardcoded string with Mollie status
+        dd($payment->status);
         $ticket->paymentStatus = 'betaald';
         $ticket->save();
 
