@@ -18,6 +18,7 @@ class CreateOrderTable extends Migration
             $table->string('payment_id');
             $table->string('email');
             $table->string('orderNumber');
+            $table->float('numberOfCodes');
             $table->string('paymentStatus');
             $table->timestamps();
         });

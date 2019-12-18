@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Ticket;
+use App\Order;
 
 class UserPageController extends Controller
 {
@@ -45,7 +46,8 @@ class UserPageController extends Controller
         try {
             //initialize Mollie
             $mollie = $this->APIKeyData();
-
+            //number of codes to save
+            $numberOfCodes = $request->input('numberOfCodes');
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -68,7 +70,7 @@ class UserPageController extends Controller
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => "1.00" // You must send the correct number of decimals, thus we enforce the use of strings
+                    "value" => $numberOfCodes // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
                 "description" => "Order #{$orderId}",
                 "redirectUrl" => route('finish', ['orderId' => $orderId]),
@@ -80,17 +82,27 @@ class UserPageController extends Controller
             //validate the data
             $this->validate($request, [
                 'email' => ['required', 'string', 'max:255'],
+                'numberOfCodes' => ['required', 'integer', 'max:1']
             ]);
 
 
             //create the data to store in DB
+            $order = new Order;
+            $order->email = $request->input('email');
+            $order->payment_id = $payment->id;
+            $order->orderNumber = $orderId;
+            $order->numberOfCodes = $numberOfCodes;
+            $order->paymentStatus = $payment->status;
+            $order->save();
+
+            //create tickets as many as the numberOfCodes
             $ticket = new Ticket;
-            $ticket->email = $request->input('email');
-            $ticket->payment_id = $payment->id;
-            $ticket->orderNumber = $orderId;
-            $ticket->paymentStatus = $payment->status;
-            $ticket->used = false;
-            $ticket->save();
+            for($i = 0; i < $numberOfCodes; $i++){
+                $ticket->order_id = $orderId;
+                $ticket->ticketNumber = time();
+                $ticket->used = false;
+                $ticket->save();
+            }
             //check if the user wants to pay with ideal or paypal
             if($request->input('paymethod') == 'ideal'){
                 $payUrl = $payment->getCheckoutUrl();
@@ -117,19 +129,19 @@ class UserPageController extends Controller
      */
     public function finishPayment($orderId){
 
-        $ticket = Ticket::where('orderNumber', $orderId)->first();
+        $order = Order::where('orderNumber', $orderId)->first();
         $mollie = $this->APIKeyData();
 
-        $payment = $mollie->payments->get($ticket->payment_id);
+        $payment = $mollie->payments->get($order->payment_id);
 
         if (!$payment->isPaid()) {
             return view('order_status', [
                 'payment' => $payment,
-                'order' => $ticket,
+                'order' => $order,
             ]);
         }
-        $ticket->paymentStatus = $payment->status;
-        $ticket->save();
+        $order->paymentStatus = $payment->status;
+        $order->save();
 
         return redirect()->route('sendmail', ['paymentId' => $payment->id]);
     }

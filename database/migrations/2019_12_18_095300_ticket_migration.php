@@ -16,7 +16,7 @@ class TicketMigration extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
-            $table->integer('ticketNumber');
+            $table->integer('ticketNumber')->unique();
             $table->boolean('used');
             $table->timestamps();
         });

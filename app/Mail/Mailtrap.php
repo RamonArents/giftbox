@@ -19,10 +19,10 @@ class Mailtrap extends Mailable
      *
      * @return void
      */
-    public function __construct($email, $orderNumber)
+    public function __construct($email, $ticketNumber)
     {
         $this->email = $email;
-        $this->orderNumber = $orderNumber;
+        $this->ticketNumber = $ticketNumber;
     }
 
     /**
