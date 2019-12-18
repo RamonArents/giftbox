@@ -23,12 +23,18 @@ class UserPageController extends Controller
         return view('doneer');
     }
     /*
-    * Function to return the success or failure page when someone has payed
-    * @param, the orderid
+    * This function returns the view connected tot the webhook url
     * @return view payed.blade
     */
     public function payed(){
         return view('payed');
+    }
+    /*
+    * Function to return the buyCode view
+    * @return view buycode.blade
+    */
+    public function getBuyPage(){
+        return view('buycode');
     }
     /*
      * Function to send payment with the API
@@ -133,7 +139,7 @@ class UserPageController extends Controller
     }
 
     /*
-     * Check if the user has payed
+     * Check if the paymentstatus
      * @param the order id
      * @returns, the payed view with success or error
      */
@@ -148,29 +154,29 @@ class UserPageController extends Controller
 
 
             if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
-                $payStatus = 'betaald';
+                $payStatus = 'paid';
             } elseif ($payment->isOpen()) {
                 $payStatus = 'open';
             } elseif ($payment->isPending()) {
-                $payStatus = 'bezig';
+                $payStatus = 'pending';
             } elseif ($payment->isFailed()) {
-                $payStatus = 'mislukt';
+                $payStatus = 'failed';
             } elseif ($payment->isExpired()) {
-                $payStatus = 'verlopen';
+                $payStatus = 'expired';
             } elseif ($payment->isCanceled()) {
-                $payStatus = 'geweigerd';
+                $payStatus = 'refused';
             } elseif ($payment->hasRefunds()) {
                 /*
                  * The payment has been (partially) refunded.
                  * The status of the payment is still "paid"
                  */
-                $payStatus = 'betaald';
+                $payStatus = 'paid';
             } elseif ($payment->hasChargebacks()) {
                 /*
                  * The payment has been (partially) charged back.
                  * The status of the payment is still "paid"
                  */
-                $payStatus = 'betaald';
+                $payStatus = 'paid';
             }
             return $payStatus;
         } catch (\Mollie\Api\Exceptions\ApiException $e) {

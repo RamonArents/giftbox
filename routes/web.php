@@ -14,6 +14,8 @@
 // User routes
 Route::get('/', 'UserPageController@getHomePage')->name('homepage');
 Route::get('/doneer', 'UserPageController@getDoneerPage')->name('donatiepage');
+//route to buy code
+Route::get('/buycode', 'UserPageController@getBuyPage')->name('buycode');
 // payment routes
 Route::post('/pay', 'UserPageController@pay')->name('pay');
 // webhook url
