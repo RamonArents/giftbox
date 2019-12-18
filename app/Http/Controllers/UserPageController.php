@@ -84,6 +84,7 @@ class UserPageController extends Controller
             $ticket->orderNumber = $orderId;
             $ticket->paymentStatus = $payment->status;
             $ticket->used = false;
+            $ticket->save();
             //check if the user wants to pay with ideal or paypal
             if($request->input('paymethod') == 'ideal'){
                 $payUrl = $payment->getCheckoutUrl();
@@ -108,8 +109,12 @@ class UserPageController extends Controller
      * @param Ticket object
      * @return view doneer
      */
-    public function finishPayment(Ticket $ticket){
-        $payment = $this->payment->get($ticket->payment_id);
+    public function finishPayment($orderId){
+
+        $ticket = Ticket::where('orderNumber', $orderId)->first();
+        $mollie = $this->APIKeyData();
+
+        $payment = $mollie->payments->get($ticket->payment_id);
 
         if (!$payment->isPaid()) {
             return view('order_status', [
@@ -117,8 +122,8 @@ class UserPageController extends Controller
                 'order' => $ticket,
             ]);
         }
-
-        $ticket->status = 'betaald';
+        //TODO: Replace hardcoded string with Mollie status
+        $ticket->paymentStatus = 'betaald';
         $ticket->save();
 
         return redirect()->route('sendmail', ['paymentId' => $payment->id]);
