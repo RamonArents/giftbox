@@ -48,6 +48,7 @@ class UserPageController extends Controller
             $mollie = $this->APIKeyData();
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
+            $totalEuros = number_format($numberOfCodes, 2);
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -70,7 +71,7 @@ class UserPageController extends Controller
             $payment = $mollie->payments->create([
                 "amount" => [
                     "currency" => "EUR",
-                    "value" => $numberOfCodes // You must send the correct number of decimals, thus we enforce the use of strings
+                    "value" => $totalEuros // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
                 "description" => "Order #{$orderId}",
                 "redirectUrl" => route('finish', ['orderId' => $orderId]),

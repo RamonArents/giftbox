@@ -8,7 +8,7 @@
         </div>
         <div class="form-group buy-ticket">
             <label for="numberOfCodes">Aantal codes (iedere code kan eenmalig voor 1 kaarsje worden gebruikt):</label><br>
-            <input class="form-control" id="numberOfCodes" type="number" name="numberOfCodes" min="1" max="5" step=".01" required/>
+            <input class="form-control" id="numberOfCodes" type="number" name="numberOfCodes" min="1.00" max="5.00" step="0.01" required/>
         </div>
         <div class="form-check buy-ticket">
             <input class="form-check-input" id="paymethod-ideal" type="radio" name="paymethod" value="ideal"/>
