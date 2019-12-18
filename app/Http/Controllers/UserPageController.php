@@ -122,7 +122,6 @@ class UserPageController extends Controller
                 'order' => $ticket,
             ]);
         }
-        dd($payment->status);
         $ticket->paymentStatus = 'betaald';
         $ticket->save();
 
