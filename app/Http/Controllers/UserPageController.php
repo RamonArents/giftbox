@@ -77,7 +77,7 @@ class UserPageController extends Controller
                     "order_id" => $orderId,
                 ],
             ]);
-            //validate the data to the database
+            //validate the data
             $this->validate($request, [
                 'email' => ['required', 'string', 'max:255'],
             ]);

@@ -10,4 +10,8 @@ class Ticket extends Model
 
     protected $table = 'tickets';
 
+    public function Order(){
+        $this->belongsTo(App::Order);
+    }
+
 }
