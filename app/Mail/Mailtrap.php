@@ -12,7 +12,7 @@ class Mailtrap extends Mailable
     use Queueable, SerializesModels;
 
     public $email;
-    public $orderNumber;
+    public $ticketNumber;
 
     /**
      * Create a new message instance.
@@ -35,6 +35,6 @@ class Mailtrap extends Mailable
         return $this->from('giftbox@giftbox.com', 'Mailtrap')
             ->to($this->email)
             ->subject('Orderbevestiging giftbox')
-            ->view('mail.mail', ['orderNumber' => $this->orderNumber]);
+            ->view('mail.mail', ['ticketNumber' => $this->ticketNumber]);
     }
 }

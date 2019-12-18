@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 10 dec 2019 om 13:39
+-- Gegenereerd op: 18 dec 2019 om 14:10
 -- Serverversie: 10.1.37-MariaDB
 -- PHP-versie: 7.3.1
 
@@ -57,7 +57,26 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_resets_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_04_162519_create_ticket_table', 2);
+(4, '2019_12_04_162519_create_order_table', 1),
+(5, '2019_12_18_095300_ticket_migration', 1),
+(6, '2019_12_18_100015_orders_to_tickets_foreign', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `orderNumber` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `numberOfCodes` double(8,2) NOT NULL,
+  `paymentStatus` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -79,10 +98,8 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `tickets` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `payment_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `orderNumber` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paymentStatus` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `order_id` bigint(20) UNSIGNED NOT NULL,
+  `ticketNumber` int(11) NOT NULL,
   `used` tinyint(1) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -122,6 +139,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexen voor tabel `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexen voor tabel `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -131,7 +154,9 @@ ALTER TABLE `password_resets`
 -- Indexen voor tabel `tickets`
 --
 ALTER TABLE `tickets`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `tickets_ticketnumber_unique` (`ticketNumber`),
+  ADD KEY `tickets_order_id_foreign` (`order_id`);
 
 --
 -- Indexen voor tabel `users`
@@ -154,19 +179,35 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT voor een tabel `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT voor een tabel `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT voor een tabel `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT voor een tabel `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Beperkingen voor geëxporteerde tabellen
+--
+
+--
+-- Beperkingen voor tabel `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `tickets_order_id_foreign` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

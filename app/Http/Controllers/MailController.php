@@ -18,11 +18,11 @@ class MailController extends Controller
 
         //get the ticket and the connected orders
         $order = Order::where('payment_id', $paymentId)->first();
-        $ticket = Ticket::where('order_id', $order->id)->get();
+        $tickets = Ticket::where('order_id', $order->id)->get();
         // send to the correct email and send for each ticket
         $email = $order->email;
-        foreach($ticket as $tickets){
-            $ticketNumber = $tickets->ticketNumber;
+        foreach($tickets as $ticket){
+            $ticketNumber = $ticket->ticketNumber;
             Mail::to($email)->send(new Mailtrap($email, $ticketNumber));
         }
         //redirect to donatipage

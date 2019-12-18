@@ -27,7 +27,7 @@
         </header>
         <div class="text-center mail-content">
             <p>Hierbij ontvangt u de code om een kaarsje op te steken. Deze kan worden verzilverd op de website en is voor eenmalig gebruik.</p>
-            <p>Code: {{  $orderNumber }}</p>
+            <p>Code: {{  $ticketNumber }}</p>
             <p>Het is niet mogelijk om op deze email te reageren. Bij problemen kunt u contact opnemen met .....</p>
             <p>Met vriendelijke groet,</p>
             <p>Giftbox.</p>

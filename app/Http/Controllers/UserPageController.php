@@ -49,6 +49,7 @@ class UserPageController extends Controller
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
             $totalEuros = number_format($numberOfCodes, 2);
+            dd($totalEuros);
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -98,8 +99,9 @@ class UserPageController extends Controller
 
             //create tickets as many as the numberOfCodes
             $ticket = new Ticket;
-            for($i = 0; i < $numberOfCodes; $i++){
-                $ticket->order_id = $orderId;
+            $orderTableId = Order::where('orderNumber', $orderId)->first();
+            for($i = 0; $i < $numberOfCodes; $i++){
+                $ticket->order_id = $orderTableId->id;
                 $ticket->ticketNumber = time();
                 $ticket->used = false;
                 $ticket->save();
