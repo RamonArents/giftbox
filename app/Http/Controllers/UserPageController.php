@@ -122,7 +122,7 @@ class UserPageController extends Controller
                 'order' => $ticket,
             ]);
         }
-        $ticket->paymentStatus = 'betaald';
+        $ticket->paymentStatus = $payment->status;
         $ticket->save();
 
         return redirect()->route('sendmail', ['paymentId' => $payment->id]);
