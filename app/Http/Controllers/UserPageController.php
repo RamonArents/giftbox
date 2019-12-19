@@ -49,12 +49,11 @@ class UserPageController extends Controller
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
             $totalEuros = number_format($numberOfCodes, 2);
-            dd($totalEuros);
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
              */
-            $orderId = time();
+            $orderNumber = time();
             /*
              * Determine the url parts to these example files.
              */
@@ -74,17 +73,17 @@ class UserPageController extends Controller
                     "currency" => "EUR",
                     "value" => $totalEuros // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
-                "description" => "Order #{$orderId}",
-                "redirectUrl" => route('finish', ['orderId' => $orderId]),
+                "description" => "Order #{$orderNumber}",
+                "redirectUrl" => route('finish', ['orderNumber' => $orderNumber]),
                 "webhookUrl" => route('webhook'),
                 "metadata" => [
-                    "order_id" => $orderId,
+                    "order_id" => $orderNumber,
                 ],
             ]);
             //validate the data
             $this->validate($request, [
                 'email' => ['required', 'string', 'max:255'],
-                'numberOfCodes' => ['required', 'integer', 'max:1']
+                'numberOfCodes' => ['required']
             ]);
 
 
@@ -92,15 +91,15 @@ class UserPageController extends Controller
             $order = new Order;
             $order->email = $request->input('email');
             $order->payment_id = $payment->id;
-            $order->orderNumber = $orderId;
+            $order->orderNumber = $orderNumber;
             $order->numberOfCodes = $numberOfCodes;
             $order->paymentStatus = $payment->status;
             $order->save();
 
             //create tickets as many as the numberOfCodes
             $ticket = new Ticket;
-            $orderTableId = Order::where('orderNumber', $orderId)->first();
-            for($i = 0; $i < $numberOfCodes; $i++){
+            $orderTableId = Order::where('orderNumber', $orderNumber)->first();
+            for($i = 0; $i < (int) $numberOfCodes; $i++){
                 $ticket->order_id = $orderTableId->id;
                 $ticket->ticketNumber = time();
                 $ticket->used = false;
@@ -130,9 +129,9 @@ class UserPageController extends Controller
      * @param Ticket object
      * @return view doneer
      */
-    public function finishPayment($orderId){
+    public function finishPayment($orderNumber){
 
-        $order = Order::where('orderNumber', $orderId)->first();
+        $order = Order::where('orderNumber', $orderNumber)->first();
         $mollie = $this->APIKeyData();
 
         $payment = $mollie->payments->get($order->payment_id);

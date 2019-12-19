@@ -21,7 +21,7 @@ Route::post('/pay', 'UserPageController@pay')->name('pay');
 // webhook url
 Route::get('/payment', 'UserPageController@payed')->name('webhook');
 //payed URL
-Route::get('/payed/{orderId}', 'UserPageController@finishPayment')->name('finish');
+Route::get('/payed/{orderNumber}', 'UserPageController@finishPayment')->name('finish');
 //order status URL
 Route::get('/order-status/{order}/{payment}', 'UserPageController@getOrderStatus')->name('order_status');
 // mail URL
