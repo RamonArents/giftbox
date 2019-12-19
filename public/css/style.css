@@ -34,7 +34,6 @@ body {
 .content {
   text-align: center;
   margin-top: 180px;
-  margin-left: -10px;
   width: 500px;
 }
 
@@ -94,6 +93,26 @@ body {
 
   .homepage-button a {
     width: 300px;
+  }
+}
+
+@media (min-width: 420px) and (max-width: 850px) {
+  .background {
+    height: 485px;
+  }
+
+  .background img {
+    height: 520px;
+  }
+
+  .content {
+    margin-top: 0px;
+  }
+}
+
+@media (min-width: 800px) and (max-height: 400px) {
+  .content {
+    margin-left: -100px;
   }
 }
 
