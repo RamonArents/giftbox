@@ -1,5 +1,15 @@
 @extends('layouts.app')
-
+<!--style only for landing page-->
+<style>
+    body{
+        overflow: hidden;
+    }
+    @media (min-width:800px) and (max-width: 1000px){
+        body{
+            overflow: visible;
+        }
+    }
+</style>
 @section('content')
     <!--This is the background image-->
     <div class="background">

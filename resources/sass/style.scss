@@ -1,9 +1,8 @@
 body{
-  overflow: hidden;
   font-size:1.5em;
 }
 .navbar-expand-md .navbar-nav .nav-link{
-  font-size:0.9em;
+  font-size:0.8em;
 }
 .background{
   position: absolute;
@@ -29,10 +28,12 @@ body{
   text-align: center;
   margin-top:250px;
   margin-left:-10px;
+  width:500px;
 }
 .homepage-text{
   color:white;
-  width:500px;
+
+  margin-left:10px;
 }
 .homepage-button a{
   font-size:1.5em;
@@ -61,4 +62,49 @@ body{
 .alert{
   width:500px;
   margin-left:35%;
+}
+@media (max-width:800px) {
+  .content{
+    margin-top:0px;
+  }
+
+}
+@media (max-width:400px) {
+    .background img{
+      height:800px;
+    }
+    .content{
+      width: 300px;
+      margin-left:5%;
+      margin-top:150px;
+    }
+    .homepage-button a{
+      width: 300px;
+    }
+}
+@media (min-width:400px) and (max-width: 500px){
+  .background img{
+    height:800px;
+  }
+  .content{
+    width: 350px;
+    margin-left:3%;
+    margin-top:150px;
+  }
+  .homepage-button a{
+    width: 350px;
+  }
+}
+@media (min-width:800px) and (max-width: 1000px){
+  .background{
+    height:511px;
+  }
+  .content{
+    width: 350px;
+    margin-left:-10%;
+    margin-top:0px;
+  }
+  .homepage-button a{
+    margin-left:-75px;
+  }
 }
