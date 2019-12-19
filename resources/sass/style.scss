@@ -63,7 +63,7 @@ body{
   width:500px;
   margin-left:35%;
 }
-@media (max-width:400px){
+@media (max-width:420px){
   .background img{
     display: none;
   }
@@ -73,8 +73,29 @@ body{
   .content{
     width:300px;
     margin-left:5%;
+    margin-top:50px;
   }
   .homepage-button a{
     width:300px;
   }
 }
+//@media (max-width:420px) and (max-height: 736px){
+//  .background img{
+//    display: none;
+//  }
+//  .background{
+//    background-color:saddlebrown;
+//  }
+//  .content{
+//    width:300px;
+//    margin-left:11%;
+//  }
+//  .homepage-button a{
+//    width:300px;
+//  }
+//}
+//@media (max-width:375px) and (max-height: 812px){
+//  .content{
+//    margin-left:3%;
+//  }
+//}
