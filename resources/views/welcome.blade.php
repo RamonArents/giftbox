@@ -4,7 +4,7 @@
     body{
         overflow: hidden;
     }
-    @media (min-width:800px) and (max-width: 1000px){
+    @media (max-width: 1100px){
         body{
             overflow: visible;
         }

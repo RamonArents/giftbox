@@ -33,7 +33,7 @@ body {
 
 .content {
   text-align: center;
-  margin-top: 250px;
+  margin-top: 180px;
   margin-left: -10px;
   width: 500px;
 }
@@ -81,6 +81,10 @@ body {
   .content {
     margin-top: 0px;
   }
+
+  .background img {
+    margin-top: -133px;
+  }
 }
 
 @media (max-width: 400px) {
@@ -88,10 +92,14 @@ body {
     height: 800px;
   }
 
+  .background {
+    height: 668px;
+  }
+
   .content {
     width: 300px;
     margin-left: 5%;
-    margin-top: 150px;
+    margin-top: 85px;
   }
 
   .homepage-button a {
@@ -115,19 +123,106 @@ body {
   }
 }
 
-@media (min-width: 800px) and (max-width: 1000px) {
+@media (min-width: 667px) and (max-width: 700px) {
   .background {
-    height: 511px;
+    height: 337px;
+  }
+
+  .background img {
+    height: 470px;
   }
 
   .content {
-    width: 350px;
-    margin-left: -10%;
-    margin-top: 0px;
+    margin-left: 2%;
+  }
+}
+
+@media (min-width: 700px) and (max-width: 800px) {
+  .background {
+    height: 370px;
+  }
+
+  .background img {
+    height: 500px;
+  }
+}
+
+@media (min-width: 400px) and (max-height: 736px) {
+  .background {
+    height: 689px;
+  }
+
+  .background img {
+    height: 822px;
+  }
+
+  .content {
+    margin-top: 100px;
+  }
+}
+
+@media (min-width: 375px) and (max-width: 812px) {
+  .content {
+    margin-top: 100px;
+  }
+}
+
+@media (min-width: 812px) and (max-width: 375px) {
+  .background img {
+    height: 100%;
+  }
+
+  .background {
+    height: 765px;
   }
 
   .homepage-button a {
-    margin-left: -75px;
+    width: 300px;
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1000px) {
+  .content {
+    width: 350px;
+    margin-left: -10%;
+    margin-top: 130px;
+  }
+
+  .homepage-button a {
+    width: 400px;
+    margin-left: -25px;
+  }
+}
+
+@media (min-height: 300px) and (max-height: 500px) {
+  .background img {
+    height: 1000px;
+  }
+
+  .background {
+    height: 867px;
+  }
+}
+
+@media (max-width: 375px) and (max-height: 667px) {
+  .background img {
+    height: 898px;
+  }
+}
+
+@media (max-width: 667px) and (max-height: 375px) {
+  .background img {
+    height: 1000px;
+  }
+}
+
+@media (max-height: 812px) {
+  .background img {
+    height: 900px;
+  }
+
+  .background {
+    height: 870px;
   }
 }
 
