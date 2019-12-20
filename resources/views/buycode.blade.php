@@ -18,6 +18,6 @@
             <input class="form-check-input" id="paymethod-paypal" type="radio" name="paymethod" value="paypal"/>
             <label class="form-check-label" for="paymethod-paypal">Paypal:</label>
         </div>
-        <input class="doneer-buttons" type="submit" name="payment" value="Koop code">
+        <input class="doneer-buttons" type="submit" value="Koop code">
     </form>
 @endsection

@@ -199,6 +199,24 @@ class UserPageController extends Controller
     }
 
     /*
+     * Function to activate the cadles
+     * @param Request to get the request from the user
+     * @returns doneer.blade.php
+     */
+    public function useCode(Request $request){
+        //get the right ticket
+        $ticket = $request->input('code');
+        $getTicket = Ticket::where('ticketNumber', $ticket)->first();
+        if(!isset($getTicket)){
+            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
+        }else{
+            //TODO: Turn LED on and give the user feedback from which LED is on
+            $getTicket->used = true;
+            $getTicket->save();
+            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaar nr ....');
+        }
+    }
+    /*
      * Function to get the LEDS
      * @return json file
      */

@@ -26,6 +26,8 @@ Route::get('/payed/{orderNumber}', 'UserPageController@finishPayment')->name('fi
 Route::get('/order-status/{order}/{payment}', 'UserPageController@getOrderStatus')->name('order_status');
 // mail URL
 Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
+//activate code
+Route::post('/activate', 'UserPageController@useCode')->name('usecode');
 //route that gets json file to target LEDS
 Route::get('/jsonLED', 'UserPageController@getLeds')->name('getLeds');
 //register, login (only for admin)
