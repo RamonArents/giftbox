@@ -1,5 +1,9 @@
 body {
   font-size: 1.5em;
+  background-color: saddlebrown;
+  color: white;
+  margin: 0;
+  padding: 0;
 }
 
 .navbar-expand-md .navbar-nav .nav-link {
@@ -61,11 +65,18 @@ body {
 }
 
 .doneer-buttons {
-  font-size: 2.5em;
+  font-size: 1em;
   border-radius: 20px;
   background: none;
-  border: 5px solid black;
+  border: 3px solid black;
   width: 400px;
+  color: white;
+  -webkit-transition: none;
+  transition: none;
+}
+
+.btn:hover {
+  color: white;
 }
 
 .buy-ticket input[type=email] {
@@ -78,7 +89,21 @@ body {
   margin-left: 35%;
 }
 
+iframe {
+  width: 1500px;
+  height: 450px;
+}
+
 @media (max-width: 420px) {
+  iframe {
+    width: 300px;
+    height: 200px;
+  }
+
+  .doneer-buttons {
+    width: 300px;
+  }
+
   .background img {
     display: none;
   }
