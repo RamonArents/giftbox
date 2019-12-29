@@ -51,24 +51,71 @@ body{
   border-radius:20px;
   background:none;
   border:3px solid black;
-  width:400px;
+  width:50%;
   color:white;
   transition: none;
 }
-//todo: Make a single class for this
-.btn:hover{
+.buycode:hover{
   color:white;
 }
-.buy-ticket input[type=email]{
-  width:300px;
-  margin-left:40%;
+.form-check-label{
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.form-check-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+.form-check-label input:checked ~ .checkmark {
+  background-color: white;
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.form-check-label input:checked ~ .checkmark:after {
+  display: block;
+}
+.form-check-label .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: saddlebrown;
+}
+.form-check-input{
+  position: inherit;
+  margin-left: 10px;
 }
 .alert{
   width:500px;
   margin-left:35%;
 }
+.submit-to-checkout{
+  width:70%;
+}
 iframe{
-  width:1500px;
+  width:100%;
   height:450px;
 }
 @media (max-width:420px){

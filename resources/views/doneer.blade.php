@@ -19,7 +19,7 @@
                 </form>
                 <p>Of:</p>
                 <!--Buy ticket to use on website-->
-                <a class="btn doneer-buttons" href="{{ route('buycode') }}">Koop code</a>
+                <a class="btn doneer-buttons buycode" href="{{ route('buycode') }}">Koop code</a>
         </div>
     </div>
 @endsection
