@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app')git
 @section('content')
     <form action="{{ action('UserPageController@pay') }}" method="post">
         {{ csrf_field() }}

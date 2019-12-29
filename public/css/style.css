@@ -65,8 +65,12 @@ body {
   transition: none;
 }
 
-.buycode:hover {
-  color: white;
+.doneer-buttons:hover {
+  color: black;
+  background-color: white;
+  -webkit-transition: 1s;
+  transition: 1s;
+  border: 3px solid white;
 }
 
 .form-check-label {
