@@ -21,10 +21,7 @@ class MailController extends Controller
         $tickets = Ticket::where('order_id', $order->id)->get();
         // send to the correct email and send for each ticket
         $email = $order->email;
-        foreach($tickets as $ticket){
-            $ticketNumber = $ticket->ticketNumber;
-            Mail::to($email)->send(new Mailtrap($email, $ticketNumber));
-        }
+        Mail::to($email)->send(new Mailtrap($email, $tickets));
         //redirect to donatipage
         return redirect()->route('donatiepage')->with('success', 'De code is succesvol verzonden. Check u email (ook uw spam folder).');
     }

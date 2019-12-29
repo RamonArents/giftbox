@@ -45,8 +45,11 @@
     <h1>Code om kaarsje op te steken.</h1>
 </header>
 <div class="mail-content">
-    <p>Hierbij ontvangt u de code om een kaarsje op te steken. Deze kan worden verzilverd op de website en is voor eenmalig gebruik.</p>
-    <p>Code: {{  $ticketNumber }}</p>
+    <p>Hierbij ontvangt u de code(s) om een kaarsje op te steken. De code(s) kunnen worden verzilverd op de website en zijn voor eenmalig gebruik.</p>
+    @php $count = 0; @endphp
+    @foreach($ticketNumber as $ticket)
+        <p>Code {{ $count+=1 }}: {{  $ticket->ticketNumber }}</p>
+    @endforeach
     <p>Het is niet mogelijk om op deze email te reageren. Bij problemen kunt u contact opnemen met (plaats contactgegevens hier).</p>
     <p>Met vriendelijke groet,</p>
     <p>Giftbox.</p>

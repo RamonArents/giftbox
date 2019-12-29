@@ -53,7 +53,7 @@ class UserPageController extends Controller
             if($request->input('paymethod') == 'ideal'){
                 $payMethod = 'ideal';
             }else{
-                $payMethod = 'paypal';
+                $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
             }
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
@@ -103,12 +103,13 @@ class UserPageController extends Controller
             $order->paymentStatus = $payment->status;
             $order->save();
 
-            //create tickets as many as the numberOfCodes
-            $ticket = new Ticket;
+
             $orderTableId = Order::where('orderNumber', $orderNumber)->first();
             for($i = 0; $i < (int) $numberOfCodes; $i++){
+                //create tickets as many as the numberOfCodes
+                $ticket = new Ticket;
                 $ticket->order_id = $orderTableId->id;
-                $ticket->ticketNumber = time();
+                $ticket->ticketNumber = rand(1, 1000000000);
                 $ticket->used = false;
                 $ticket->save();
             }
