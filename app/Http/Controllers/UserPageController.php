@@ -49,6 +49,12 @@ class UserPageController extends Controller
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
             $totalEuros = number_format($numberOfCodes, 2);
+            //check if the user wants to pay with ideal or paypal
+            if($request->input('paymethod') == 'ideal'){
+                $payMethod = 'ideal';
+            }else{
+                $payMethod = 'paypal';
+            }
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -73,6 +79,7 @@ class UserPageController extends Controller
                     "currency" => "EUR",
                     "value" => $totalEuros // You must send the correct number of decimals, thus we enforce the use of strings
                 ],
+                "method" => $payMethod,
                 "description" => "Order #{$orderNumber}",
                 "redirectUrl" => route('finish', ['orderNumber' => $orderNumber]),
                 "webhookUrl" => route('webhook'),
@@ -105,18 +112,11 @@ class UserPageController extends Controller
                 $ticket->used = false;
                 $ticket->save();
             }
-            //check if the user wants to pay with ideal or paypal
-            if($request->input('paymethod') == 'ideal'){
-                $payUrl = $payment->getCheckoutUrl();
-            }else{
-                //TODO: Put the right link here later
-                $payUrl = 'Paypal';
-            }
             /*
              * Send the customer off to complete the payment.
              * This request should always be a GET, thus we enforce 303 http response code
              */
-            return redirect($payUrl, 303);
+            return redirect($payment->getCheckoutUrl(), 303);
 
 
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
@@ -209,7 +209,10 @@ class UserPageController extends Controller
         $getTicket = Ticket::where('ticketNumber', $ticket)->first();
         if(!isset($getTicket)){
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
-        }else{
+        }else if($getTicket->used == true){
+            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
+        }
+        else{
             //TODO: Turn LED on and give the user feedback from which LED is on
             $getTicket->used = true;
             $getTicket->save();
