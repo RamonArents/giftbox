@@ -35,7 +35,7 @@
             padding: 10px;
             text-align: center;
             height: 100%;
-            width:100%;
+            width:98.1%;
         }
 
     </style>
