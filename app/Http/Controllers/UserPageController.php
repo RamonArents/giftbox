@@ -213,7 +213,7 @@ class UserPageController extends Controller
             //TODO: Turn LED on and give the user feedback from which LED is on
             $getTicket->used = true;
             $getTicket->save();
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaar nr ....');
+            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
         }
     }
     /*
