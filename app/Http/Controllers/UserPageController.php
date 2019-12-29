@@ -61,12 +61,6 @@ class UserPageController extends Controller
              */
             $orderNumber = time();
             /*
-             * Determine the url parts to these example files.
-             */
-//            $protocol = isset($_SERVER['HTTPS']) && strcasecmp('off', $_SERVER['HTTPS']) !== 0 ? "https" : "http";
-//            $hostname = $_SERVER['HTTP_HOST'];
-//            $path = dirname(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF']);
-            /*
              * Payment parameters:
              *   amount        Amount in EUROs.
              *   description   Description of the payment.
@@ -131,34 +125,67 @@ class UserPageController extends Controller
      * @return view doneer
      */
     public function finishPayment($orderNumber){
-
+        //get the right order from the DB
         $order = Order::where('orderNumber', $orderNumber)->first();
         $mollie = $this->APIKeyData();
-
+        //find the Mollie payment
         $payment = $mollie->payments->get($order->payment_id);
-
+        // if the order isn't paid, return a page with the current status
         if (!$payment->isPaid()) {
             return view('order_status', [
                 'payment' => $payment,
                 'order' => $order,
             ]);
         }
+        //save the payment status in the DB
         $order->paymentStatus = $payment->status;
         $order->save();
-
+        //redirect to send email with the codes
         return redirect()->route('sendmail', ['paymentId' => $payment->id]);
     }
-
+    /*
+     * Gets the payment status other than paid
+     * @returns, the payed view with the status
+     */
     public function getOrderStatus(){
         return view('order_status');
     }
 
     /*
-     * Check if the paymentstatus
-     * @param the order id
-     * @returns, the payed view with success or error
+     * Function to activate the cadles
+     * @param Request to get the request from the user
+     * @returns doneer.blade.php
      */
-   protected function checkPayment($paymentId){
+    public function useCode(Request $request){
+        //get the right ticket
+        $ticket = $request->input('code');
+        $getTicket = Ticket::where('ticketNumber', $ticket)->first();
+        //check if the ticket exists or is already used
+        if(!isset($getTicket)){
+            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
+        }else if($getTicket->used == true){
+            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
+        }
+        else{
+            //TODO: Turn LED on and give the user feedback from which LED is on
+            $getTicket->used = true;
+            $getTicket->save();
+            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
+        }
+    }
+    /*
+     * Function to get the LEDS
+     * @return json file
+     */
+    public function getLeds(){
+        return response()->file(storage_path('ledjes.json'));
+    }
+    /*
+    * Check if the paymentstatus
+    * @param the order id
+    * @returns, the payed view with success or error
+    */
+    protected function checkPayment($paymentId){
         try {
             //status payment
             $payStatus = '';
@@ -197,35 +224,6 @@ class UserPageController extends Controller
         } catch (\Mollie\Api\Exceptions\ApiException $e) {
             echo "API call failed (checkPayment): " . htmlspecialchars($e->getMessage());
         }
-    }
-
-    /*
-     * Function to activate the cadles
-     * @param Request to get the request from the user
-     * @returns doneer.blade.php
-     */
-    public function useCode(Request $request){
-        //get the right ticket
-        $ticket = $request->input('code');
-        $getTicket = Ticket::where('ticketNumber', $ticket)->first();
-        if(!isset($getTicket)){
-            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
-        }else if($getTicket->used == true){
-            return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
-        }
-        else{
-            //TODO: Turn LED on and give the user feedback from which LED is on
-            $getTicket->used = true;
-            $getTicket->save();
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
-        }
-    }
-    /*
-     * Function to get the LEDS
-     * @return json file
-     */
-    public function getLeds(){
-        return response()->file(storage_path('ledjes.json'));
     }
 
     /*
