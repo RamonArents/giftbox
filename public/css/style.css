@@ -149,15 +149,18 @@ iframe {
   font-size: 0.6em;
 }
 
+.card-body {
+  padding: 5px;
+}
+
 .remember {
   display: inline;
   font-size: 1em;
   margin: -18px;
 }
 
-.chart_div {
-  width: 700px;
-  height: 900px;
+#chart_div {
+  width: 100%;
 }
 
 @media (max-width: 420px) {
