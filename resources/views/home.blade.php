@@ -98,16 +98,12 @@
     //         chart.draw(data, options);
     //     }, 500);
     }
-    //change class on window width
-    window.onload = function () {
-        if ($(window).width() >= 1000) {
-            $('#chart_div').removeClass('col-md-8');
-            $('#chart_div').addClass('col-md-10');
-        } else {
-            $('#chart_div').removeClass('col-md-10');
-            $('#chart_div').addClass('col-md-8');
-        }
-    }
+    $(document).ready(function () {
+        $(window).resize(function(){
+            drawOrderChart();
+        });
+    });
+
 </script>
 @section('content')
 <div class="container">
@@ -152,7 +148,9 @@
                         <div class="ticketOkt" data-ticket-okt="{{ $ticketOkt }}"></div>
                         <div class="ticketNov" data-ticket-nov="{{ $ticketNov }}"></div>
                         <div class="ticketDec" data-ticket-dec="{{ $ticketDec }}"></div>
-                        <div class="col-md-8" id="chart_div"></div>
+                        <div class="col-md-12">
+                            <div id="chart_div"></div>
+                        </div>
                 </div>
             </div>
         </div>
