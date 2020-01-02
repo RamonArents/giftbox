@@ -9,35 +9,35 @@ use App\Order;
 class UserPageController extends Controller
 {
 
-    /*
+    /**
      * Function to return the homepage
      * @return view welcome.blade
      */
     public function getHomePage(){
         return view('welcome');
     }
-    /*
+    /**
     * Function to return the donatiepage
     * @return view doneer.blade
     */
     public function getDoneerPage(){
         return view('doneer');
     }
-    /*
+    /**
     * This function returns the view connected tot the webhook url
     * @return view payed.blade
     */
     public function payed(){
         return view('payed');
     }
-    /*
+    /**
     * Function to return the buyCode view
     * @return view buycode.blade
     */
     public function getBuyPage(){
         return view('buycode');
     }
-    /*
+    /**
      * Function to send payment with the API
      * @param request (send the data of the payment to the DB)
      * @return success or failure
@@ -119,7 +119,7 @@ class UserPageController extends Controller
         }
     }
 
-    /*
+    /**
      * Function to finish the payment
      * @param Ticket object
      * @return view doneer
@@ -143,18 +143,18 @@ class UserPageController extends Controller
         //redirect to send email with the codes
         return redirect()->route('sendmail', ['paymentId' => $payment->id]);
     }
-    /*
+    /**
      * Gets the payment status other than paid
-     * @returns, the payed view with the status
+     * @return, the payed view with the status
      */
     public function getOrderStatus(){
         return view('order_status');
     }
 
-    /*
+    /**
      * Function to activate the cadles
      * @param Request to get the request from the user
-     * @returns doneer.blade.php
+     * @return doneer.blade.php
      */
     public function useCode(Request $request){
         //get the right ticket
@@ -173,17 +173,17 @@ class UserPageController extends Controller
             return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
         }
     }
-    /*
+    /**
      * Function to get the LEDS
      * @return json file
      */
     public function getLeds(){
         return response()->file(storage_path('ledjes.json'));
     }
-    /*
+    /**
     * Check if the paymentstatus
     * @param the order id
-    * @returns, the payed view with success or error
+    * @return, the payed view with success or error
     */
     protected function checkPayment($paymentId){
         try {
@@ -226,7 +226,7 @@ class UserPageController extends Controller
         }
     }
 
-    /*
+    /**
      * This function contains the API key for mollie
      * @return Mollie payment object
      */
