@@ -9,10 +9,11 @@
      * @return void, show histogram with the order data
      */
     function drawOrderChart() {
+        // all data
         let orderCount = $('.orderCount').data('order-count');
         let ticketCount = $('.ticketCount').data('ticket-count');
         let usedTicketCount = $('.usedTicketCount').data('used-ticket-count');
-
+        // orders by month
         let orderJan = $('.orderJan').data('order-jan');
         let orderFeb = $('.orderFeb').data('order-feb');
         let orderMar = $('.orderMar').data('order-mar');
@@ -25,27 +26,41 @@
         let orderOkt = $('.orderOkt').data('order-okt');
         let orderNov = $('.orderNov').data('order-nov');
         let orderDec = $('.orderDec').data('order-dec');
+        //tickets by month
+        let ticketJan = $('.ticketJan').data('ticket-jan');
+        let ticketFeb = $('.ticketFeb').data('ticket-feb');
+        let ticketMar = $('.ticketMar').data('ticket-mar');
+        let ticketApr = $('.ticketApr').data('ticket-apr');
+        let ticketMei = $('.ticketMei').data('ticket-mei');
+        let ticketJun = $('.ticketJun').data('ticket-jun');
+        let ticketJul = $('.ticketJul').data('ticket-jul');
+        let ticketAug = $('.ticketAug').data('ticket-aug');
+        let ticketSep = $('.ticketSep').data('ticket-sep');
+        let ticketOkt = $('.ticketOkt').data('ticket-okt');
+        let ticketNov = $('.ticketNov').data('ticket-nov');
+        let ticketDec = $('.ticketDec').data('ticket-dec');
         // Some raw data (not necessarily accurate)
         let data = google.visualization.arrayToDataTable([
             ['Maand', 'Orders', 'Codes', 'Gebruikte codes'],
-            ['Jan',  orderJan,0,0,],
-            ['Feb',  orderFeb, 0, 0, ],
-            ['Mar',  orderMar, 0, 0, ],
-            ['apr',  orderApr, 0, 0,  ],
-            ['mei',  orderMei, 0, 0,  ],
-            ['jun',  orderJun, 0, 0,  ],
-            ['jul',  orderJul, 0, 0, ],
-            ['aug',  orderAug, 0, 0,  ],
-            ['sep',  orderSep, 0, 0,  ],
-            ['okt',  orderOkt, 0, 0,  ],
-            ['nov',  orderNov, 0, 0,  ],
-            ['dec',  orderDec, 0, 0,  ]
+            ['Jan',  orderJan, ticketJan,0,],
+            ['Feb',  orderFeb, ticketFeb, 0, ],
+            ['Mar',  orderMar, ticketMar, 0, ],
+            ['apr',  orderApr, ticketApr, 0,  ],
+            ['mei',  orderMei, ticketMei, 0,  ],
+            ['jun',  orderJun, ticketJun, 0,  ],
+            ['jul',  orderJul, ticketJul, 0, ],
+            ['aug',  orderAug, ticketAug, 0,  ],
+            ['sep',  orderSep, ticketSep, 0,  ],
+            ['okt',  orderOkt, ticketOkt, 0,  ],
+            ['nov',  orderNov, ticketNov, 0,  ],
+            ['dec',  orderDec, ticketDec, 0,  ]
         ]);
 
         let options = {
             title : 'Orders per maand',
             vAxis: {title: 'Orders'},
             hAxis: {title: 'Maand'},
+            legend: {position: 'top', textStyle: {fontSize: 10}},
             seriesType: 'bars',
             series: {5: {type: 'line'}}        };
 
@@ -97,9 +112,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                        <!-- all data-->
                         <div class="orderCount" data-order-count="{{ $orderCount }}"></div>
                         <div class="ticketCount" data-ticket-count="{{ $ticketCount }}"></div>
                         <div class="usedTicketCount" data-used-ticket-count="{{ $usedTicketCount }}"></div>
+                        <!-- orders by month-->
                         <div class="orderJan" data-order-jan="{{ $orderJan }}"></div>
                         <div class="orderFeb" data-order-feb="{{ $orderFeb }}"></div>
                         <div class="orderMar" data-order-mar="{{ $orderMar }}"></div>
@@ -112,6 +129,19 @@
                         <div class="orderOkt" data-order-okt="{{ $orderOkt }}"></div>
                         <div class="orderNov" data-order-nov="{{ $orderNov }}"></div>
                         <div class="orderDec" data-order-dec="{{ $orderDec }}"></div>
+                        <!-- tickets by month-->
+                        <div class="ticketJan" data-ticket-jan="{{ $ticketJan }}"></div>
+                        <div class="ticketFeb" data-ticket-feb="{{ $ticketFeb }}"></div>
+                        <div class="ticketMar" data-ticket-mar="{{ $ticketMar }}"></div>
+                        <div class="ticketApr" data-ticket-apr="{{ $ticketApr }}"></div>
+                        <div class="ticketMei" data-ticket-mei="{{ $ticketMei }}"></div>
+                        <div class="ticketJun" data-ticket-jun="{{ $ticketJun }}"></div>
+                        <div class="ticketJul" data-ticket-jul="{{ $ticketJul }}"></div>
+                        <div class="ticketAug" data-ticket-aug="{{ $ticketAug }}"></div>
+                        <div class="ticketSep" data-ticket-sep="{{ $ticketSep }}"></div>
+                        <div class="ticketOkt" data-ticket-okt="{{ $ticketOkt }}"></div>
+                        <div class="ticketNov" data-ticket-nov="{{ $ticketNov }}"></div>
+                        <div class="ticketDec" data-ticket-dec="{{ $ticketDec }}"></div>
                         <div id="chart_div"></div>
                 </div>
             </div>
