@@ -74,10 +74,7 @@
         </main>
     </div>
     <!--Load scripts-->
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    @if(Auth::check())
-        <script src="{{ asset('storage/adminscript.js') }}"></script>
-        @endif
-    <script src="{{ asset('js/script.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Order;
+use App\Ticket;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $orders = Order::all();
+        $countOrder = count($orders);
+
+        $tickets = Ticket::all();
+        $countTicket = count($tickets);
+
+        $usedTickets = Ticket::where('used', true)->get();
+        $countUsedTickets =  count($usedTickets);
+
+        return view('home', ['orderCount' => $countOrder, 'ticketCount' => $countTicket, 'usedTicketCount' => $countUsedTickets]);
     }
 }
