@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                        <div id="chart_div"></div>
                 </div>
             </div>
         </div>
