@@ -121,6 +121,15 @@ iframe{
   width:100%;
   height:450px;
 }
+.card{
+  color:black;
+  font-size:0.6em;
+}
+.remember{
+  display: inline;
+  font-size:1em;
+  margin:-18px;
+}
 @media (max-width:420px){
   .background img{
     display: none;
