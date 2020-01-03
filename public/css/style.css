@@ -168,6 +168,15 @@ iframe {
   margin: 0 !important;
 }
 
+.table-dark a {
+  color: white;
+}
+
+.fa,
+.fas {
+  font-size: 0.9em;
+}
+
 @media (max-width: 420px) {
   .background img {
     display: none;

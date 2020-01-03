@@ -2,7 +2,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+                <div class="table-responsive-xl">
                 <table class="table table-dark">
                     <thead>
                     <tr>
@@ -28,12 +28,12 @@
                         <td>{{ $order->paymentStatus }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td><a href="#" role="button"><span class="fas fa-pen"></span></a></td>
-                        <td><a href="#" role="button"><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#myModal"></span></a></td>
+                        <td><a href="#" role="button"><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deletModal"></span></a></td>
                     </tr>
                     @endforeach
                     </tbody>
                 </table>
+                </div>
             </div>
-        </div>
     </div>
 @endsection
