@@ -43,5 +43,6 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('home');
 //admin routes
 Route::group(['middleware' => 'auth'], function(){
-
+    Route::get('/orders','AdminController@orders')->name('orders');
+    Route::get('/codes','AdminController@orders')->name('codes');
 });

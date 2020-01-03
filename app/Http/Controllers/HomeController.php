@@ -110,7 +110,7 @@ class HomeController extends Controller
         $ticketDec = Ticket::whereMonth('created_at', '12')->get();
         $countTicketDec = count($ticketDec);
 
-        return view('home',[   'orderCount' => $countOrder,
+        return view('admin.home',[   'orderCount' => $countOrder,
                                     'ticketCount' => $countTicket,
                                     'usedTicketCount' => $countUsedTickets,
                                     'orderJan' => $countOrderJan,

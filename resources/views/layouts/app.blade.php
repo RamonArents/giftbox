@@ -53,6 +53,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}" role="button">Home</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('orders') }}" role="button">Orders</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('codes') }}" role="button">Codes</a>
+                            </li>
                             <li>
                                 <a class="nav-link"
                                    href="{{ route('logout') }}"
