@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use App\Order;
 
 class AdminController extends Controller
 {
@@ -12,7 +13,9 @@ class AdminController extends Controller
      * @return view, the order view
      */
     public function orders(){
-        return view('admin.orders');
+        $orders = Order::all();
+
+        return view('admin.orders', ['orders' => $orders]);
     }
     /**
      * show the code table
