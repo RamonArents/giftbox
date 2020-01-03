@@ -46,6 +46,9 @@ Route::group(['middleware' => 'auth'], function(){
     //order and code views
     Route::get('/orders','AdminController@orders')->name('orders');
     Route::get('/codes','AdminController@orders')->name('codes');
+    //edit order
+    Route::get('/editOrderView/{id}', 'AdminController@editOrderView')->name('editOrderView');
+    Route::post('editOrder/{id}', 'AdminController@editOrder')->name('editOrder');
     //delete order
     Route::post('/deleteOrder/{id}','AdminController@deleteOrder')->name('deleteOrder');
 });

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
-        @include('messages.messages')
         <div class="row justify-content-center">
+            @include('messages.messages')
             @foreach($orders as $order)
                 @component('components.delete-order-component', ['id' => $order->id]) @endcomponent
             @endforeach
@@ -15,7 +15,7 @@
                         <th scope="col">email</th>
                         <th scope="col">ordernummer</th>
                         <th scope="col">aantal codes</th>
-                        <th scope="col">payment status</th>
+                        <th scope="col">betaal status</th>
                         <th scope="col">datum</th>
                         <th scope="col">bewerken</th>
                         <th scope="col">verwijderen</th>
@@ -31,8 +31,8 @@
                         <td>{{ $order->numberOfCodes }}</td>
                         <td>{{ $order->paymentStatus }}</td>
                         <td>{{ $order->created_at }}</td>
-                        <td><a href="#" role="button"><span class="fas fa-pen"></span></a></td>
-                        <td><a href="#" role="button"><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteOrderModal"></span></a></td>
+                        <td><a href="{{ route('editOrderView', ['id' => $order->id]) }}" role="button"><span class="fas fa-pen"></span></a></td>
+                        <td><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteOrderModal"></span></td>
                     </tr>
                     @endforeach
                     </tbody>

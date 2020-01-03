@@ -9,6 +9,7 @@
                     frameborder="0"
                     allowfullscreen="true"
                     scrolling="no"></iframe>
+                <!--TODO: Add old input to the input forms-->
                 <form action="{{ action('UserPageController@useCode') }}" method="post">
                     {{ csrf_field() }}
                     <div class="form-group col-xl-3 mx-auto">
