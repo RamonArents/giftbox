@@ -2,10 +2,10 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            @include('messages.messages')
             @foreach($codes as $code)
                 @component('components.delete-code-component', ['id' => $code->id]) @endcomponent
             @endforeach
+            @include('messages.messages')
             <div class="table-responsive-xl">
                 <table class="table table-dark">
                     <thead>
@@ -26,7 +26,7 @@
                             <td>{{ $code->used }}</td>
                             <td>{{ $code->created_at }}</td>
                             <td><a href="{{ route('editCodeView', ['id' => $code->id]) }}" role="button"><span class="fas fa-pen"></span></a></td>
-                            <td><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteCodeModal"></span></td>
+                            <td><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteCodeModal{{ $code->id }}"></span></td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -32,7 +32,7 @@
                         <td>{{ $order->paymentStatus }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td><a href="{{ route('editOrderView', ['id' => $order->id]) }}" role="button"><span class="fas fa-pen"></span></a></td>
-                        <td><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteOrderModal"></span></td>
+                        <td><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteOrderModal{{ $order->id }}"></span></td>
                     </tr>
                     @endforeach
                     </tbody>

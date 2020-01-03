@@ -1,5 +1,5 @@
 <!--modal for deleting a code-->
-<div class="modal fade" id="deleteCodeModal" role="dialog">
+<div class="modal fade" id="deleteCodeModal{{ $id }}" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
