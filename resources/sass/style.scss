@@ -146,6 +146,13 @@ iframe{
 .fa, .fas{
   font-size:0.9em;
 }
+.modal-content{
+  background-color:saddlebrown;
+  padding: 5px;
+}
+.closebutton{
+  float:right;
+}
 @media (max-width:420px){
   .background img{
     display: none;

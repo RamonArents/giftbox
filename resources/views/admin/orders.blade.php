@@ -1,11 +1,12 @@
 @extends('layouts.app')
 @section('content')
     <div class="container">
+        @include('messages.messages')
         <div class="row justify-content-center">
+            @foreach($orders as $order)
+                @component('components.delete-order-component', ['id' => $order->id]) @endcomponent
+            @endforeach
                 <div class="table-responsive-xl">
-                    @foreach($orders as $order)
-                        @component('components.delete-order-component', ['id' => $order->id]) @endcomponent
-                    @endforeach
                 <table class="table table-dark">
                     <thead>
                     <tr>
@@ -31,7 +32,7 @@
                         <td>{{ $order->paymentStatus }}</td>
                         <td>{{ $order->created_at }}</td>
                         <td><a href="#" role="button"><span class="fas fa-pen"></span></a></td>
-                        <td><a href="#" role="button"><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deletModal"></span></a></td>
+                        <td><a href="#" role="button"><span class="fa fa-fw fa-trash cursor-pointer" data-toggle="modal" data-target="#deleteOrderModal"></span></a></td>
                     </tr>
                     @endforeach
                     </tbody>

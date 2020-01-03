@@ -43,6 +43,9 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 Route::get('/home', 'HomeController@index')->name('home');
 //admin routes
 Route::group(['middleware' => 'auth'], function(){
+    //order and code views
     Route::get('/orders','AdminController@orders')->name('orders');
     Route::get('/codes','AdminController@orders')->name('codes');
+    //delete order
+    Route::post('/deleteOrder/{id}','AdminController@deleteOrder')->name('deleteOrder');
 });

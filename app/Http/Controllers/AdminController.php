@@ -19,13 +19,14 @@ class AdminController extends Controller
     }
     /**
      * delete the order (soft delete)
+     * @param $id, the id of the order to delete
      * @return redirect to view with success or erro
      */
     public function deleteOrder($id){
         $order = Order::find($id);
         $order->delete();
 
-        return view('admin.orders', ['orders' => $orders]);
+        return redirect('/orders')->with('success', 'Order successfully deleted.');
     }
     /**
      * show the code table
