@@ -3,6 +3,9 @@
     <div class="container">
         <div class="row justify-content-center">
                 <div class="table-responsive-xl">
+                    @foreach($orders as $order)
+                        @component('components.delete-order-component', ['id' => $order->id]) @endcomponent
+                    @endforeach
                 <table class="table table-dark">
                     <thead>
                     <tr>
