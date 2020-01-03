@@ -185,6 +185,10 @@ iframe {
   float: right;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @media (max-width: 420px) {
   .background img {
     display: none;
