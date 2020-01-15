@@ -174,21 +174,24 @@ class UserPageController extends Controller
              * Light selected candle for two minutes
              * If candle burns, it cannot be on
              */
-            $leds = file_get_contents(storage_path('ledjes.json'));//file(storage_path('ledjes.json'));
+            $leds = file_get_contents(storage_path('ledjes.json'));
             $ledsData = json_decode($leds, true);
 
-            $ledsData['led_list'] = [1,2,3,4,5,6,7];
-
+            $ledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
+            $ledsData['led_list'] = [array_rand($ledArray, 1)];
             $newLeds = json_encode($ledsData, JSON_PRETTY_PRINT);
             file_put_contents(storage_path('ledjes.json'), stripslashes($newLeds));
-            dd(file_get_contents(storage_path('ledjes.json')));
-            //for($i = 0; $i < 64; $i++){
-            //Storage::put($leds, "1234353243242");
-            //}
+            unset($ledArray, $ledsData['led_list'][0]);
+            $timeNow = time();
 
             $getCode->used = true;
             $getCode->save();
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
+
+            if(time() >= $timeNow + 10){
+                array_push($ledArray, $ledsData['led_list'][0]);
+            }
+            dd($ledsData['led_list']);
+            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr '.$ledsData['led_list']);
         }
     }
     /**
