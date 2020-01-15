@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Ticket;
+use App\Code;
 use Illuminate\Http\Request;
 use Auth;
 use App\Order;
@@ -68,7 +68,7 @@ class AdminController extends Controller
      */
     public function codes()
     {
-        $codes = Ticket::all();
+        $codes = Code::all();
 
         return view('admin.codes', ['codes' => $codes]);
     }
@@ -80,7 +80,7 @@ class AdminController extends Controller
      */
     public function editCodeView($id)
     {
-        $code = Ticket::find($id);
+        $code = Code::find($id);
 
         return view('admin.edit-code', ['code' => $code]);
     }
@@ -93,8 +93,8 @@ class AdminController extends Controller
      */
     public function editCode(Request $request, $id)
     {
-        $code = Ticket::find($id);
-        $code->ticketNumber = $request->input('code');
+        $code = Code::find($id);
+        $code->codeNumber = $request->input('code');
         $code->used = $request->input('used');
         $code->save();
 
@@ -108,7 +108,7 @@ class AdminController extends Controller
      */
     public function deleteCode($id)
     {
-        $ticket = Ticket::find($id);
+        $ticket = Code::find($id);
         $ticket->delete();
 
         return redirect('/codes')->with('success', 'Code successfully deleted.');

@@ -22,7 +22,7 @@
                     @foreach($codes as $code)
                         <tr>
                             <th scope="row">{{ $code->id }}</th>
-                            <td>{{ $code->ticketNumber }}</td>
+                            <td>{{ $code->codeNumber }}</td>
                             <td>{{ $code->used }}</td>
                             <td>{{ $code->created_at }}</td>
                             <td><a href="{{ route('editCodeView', ['id' => $code->id]) }}" role="button"><span class="fas fa-pen"></span></a></td>

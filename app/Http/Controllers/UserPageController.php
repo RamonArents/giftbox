@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Ticket;
+use App\Code;
 use App\Order;
+use Storage;
 
 class UserPageController extends Controller
 {
@@ -17,23 +18,23 @@ class UserPageController extends Controller
         return view('welcome');
     }
     /**
-    * Function to return the donatiepage
-    * @return view doneer.blade
-    */
+     * Function to return the donatiepage
+     * @return view doneer.blade
+     */
     public function getDoneerPage(){
         return view('doneer');
     }
     /**
-    * This function returns the view connected tot the webhook url
-    * @return view payed.blade
-    */
+     * This function returns the view connected tot the webhook url
+     * @return view payed.blade
+     */
     public function payed(){
         return view('payed');
     }
     /**
-    * Function to return the buyCode view
-    * @return view buycode.blade
-    */
+     * Function to return the buyCode view
+     * @return view buycode.blade
+     */
     public function getBuyPage(){
         return view('buycode');
     }
@@ -101,9 +102,9 @@ class UserPageController extends Controller
             $orderTableId = Order::where('orderNumber', $orderNumber)->first();
             for($i = 0; $i < (int) $numberOfCodes; $i++){
                 //create tickets as many as the numberOfCodes
-                $ticket = new Ticket;
+                $ticket = new Code;
                 $ticket->order_id = $orderTableId->id;
-                $ticket->ticketNumber = rand(1, 1000000000);
+                $ticket->codeNumber = rand(1, 1000000000);
                 $ticket->used = false;
                 $ticket->save();
             }
@@ -158,18 +159,35 @@ class UserPageController extends Controller
      */
     public function useCode(Request $request){
         //get the right ticket
-        $ticket = $request->input('code');
-        $getTicket = Ticket::where('ticketNumber', $ticket)->first();
+        $code = $request->input('code');
+        $getCode = Code::where('codeNumber', $code)->first();
         //check if the ticket exists or is already used
-        if(!isset($getTicket)){
+        if(!isset($getCode)){
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
-        }else if($getTicket->used == true){
+        }else if($getCode->used == true){
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
         }
         else{
             //TODO: Turn LED on and give the user feedback from which LED is on
-            $getTicket->used = true;
-            $getTicket->save();
+            /*
+             * Light candles from first to last
+             * Light selected candle for two minutes
+             * If candle burns, it cannot be on
+             */
+            $leds = file_get_contents(storage_path('ledjes.json'));//file(storage_path('ledjes.json'));
+            $ledsData = json_decode($leds, true);
+
+            $ledsData['led_list'] = [1,2,3,4,5,6,7];
+
+            $newLeds = json_encode($ledsData, JSON_PRETTY_PRINT);
+            file_put_contents(storage_path('ledjes.json'), stripslashes($newLeds));
+            dd(file_get_contents(storage_path('ledjes.json')));
+            //for($i = 0; $i < 64; $i++){
+            //Storage::put($leds, "1234353243242");
+            //}
+
+            $getCode->used = true;
+            $getCode->save();
             return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ....');
         }
     }
@@ -181,10 +199,10 @@ class UserPageController extends Controller
         return response()->file(storage_path('ledjes.json'));
     }
     /**
-    * Check if the paymentstatus
-    * @param the order id
-    * @return, the payed view with success or error
-    */
+     * Check if the paymentstatus
+     * @param the order id
+     * @return, the payed view with success or error
+     */
     protected function checkPayment($paymentId){
         try {
             //status payment

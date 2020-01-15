@@ -17,6 +17,6 @@ class Order extends Model
      * @return void
      */
     public function Ticket(){
-        $this->hasMany(App::Ticket);
+        $this->hasMany(App::Code);
     }
 }

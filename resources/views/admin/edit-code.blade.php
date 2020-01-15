@@ -4,7 +4,7 @@
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">
             <label for="code">Code:</label><br>
-            <input class="form-control" id="code" type="number" name="code" value="{{ $code->ticketNumber }}" required/>
+            <input class="form-control" id="code" type="number" name="code" value="{{ $code->codeNumber }}" required/>
         </div>
         <div class="form-group col-xl-3 mx-auto">
             <label for="used">Gebruikt:</label>

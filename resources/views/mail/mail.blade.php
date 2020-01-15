@@ -48,8 +48,8 @@
     <p>Hierbij ontvangt u de code(s) om een kaarsje op te steken. De code(s) kunnen worden verzilverd op de website en zijn voor eenmalig gebruik.</p>
     @php $count = 0; @endphp
     <p>
-    @foreach($ticketNumber as $ticket)
-       Code {{ $count+=1 }}: {{  $ticket->ticketNumber }}<br />
+    @foreach($ticketNumber as $code)
+       Code {{ $count+=1 }}: {{  $code->codeNumber }}<br />
     @endforeach
     </p>
     <p>Het is niet mogelijk om op deze email te reageren. Bij problemen kunt u contact opnemen met (plaats contactgegevens hier).</p>

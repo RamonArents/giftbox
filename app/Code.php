@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Ticket extends Model
+class Code extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'tickets';
+    protected $table = 'codes';
 
     /**
      * The relation to the Order table

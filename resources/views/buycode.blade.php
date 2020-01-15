@@ -4,11 +4,11 @@
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">
             <label for="email">Email:</label><br>
-            <input class="form-control" id="email" type="email" name="email" required/>
+            <input class="form-control" id="email" type="email" name="email" value="{{ old('email') }}" required/>
         </div>
         <div class="form-group col-xl-3 mx-auto">
             <label for="numberOfCodes">Aantal codes (iedere code kan eenmalig voor 1 kaarsje worden gebruikt):</label><br>
-            <input class="form-control" id="numberOfCodes" type="number" name="numberOfCodes" min="1" max="5" required/>
+            <input class="form-control" id="numberOfCodes" type="number" name="numberOfCodes" min="1" max="5" value="{{ old('numberOfCodes') }}" required/>
         </div>
         <div class="form-check col-xl-3 mx-auto">
             <label class="form-check-label" for="paymethod-ideal">Ideal

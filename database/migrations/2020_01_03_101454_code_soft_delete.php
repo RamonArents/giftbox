@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TicketSoftDelete extends Migration
+class CodeSoftDelete extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class TicketSoftDelete extends Migration
      */
     public function up()
     {
-        Schema::table('tickets', function (Blueprint $table) {
+        Schema::table('codes', function (Blueprint $table) {
             $table->softDeletes();
         });
     }
@@ -25,7 +25,7 @@ class TicketSoftDelete extends Migration
      */
     public function down()
     {
-        Schema::table('tickets', function (Blueprint $table) {
+        Schema::table('codes', function (Blueprint $table) {
             $table->dropColumn('deleted_at');
         });
     }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
-use App\Ticket;
+use App\Code;
 
 class HomeController extends Controller
 {
@@ -29,11 +29,11 @@ class HomeController extends Controller
         $orders = Order::all();
         $countOrder = count($orders);
 
-        $tickets = Ticket::all();
-        $countTicket = count($tickets);
+        $codes = Code::all();
+        $countCode = count($codes);
 
-        $usedTickets = Ticket::where('used', true)->get();
-        $countUsedTickets =  count($usedTickets);
+        $usedCodes = Code::where('used', true)->get();
+        $countUsedCodes =  count($usedCodes);
 
         //orders by month
         $orderJan = Order::whereMonth('created_at', '01')->get();
@@ -73,46 +73,46 @@ class HomeController extends Controller
         $countOrderDec = count($orderDec);
 
 
-        //tickets by month
-        $ticketJan = Ticket::whereMonth('created_at', '01')->get();
-        $countTicketJan = count($ticketJan);
+        //codes by month
+        $codeJan = Code::whereMonth('created_at', '01')->get();
+        $countCodeJan = count($codeJan);
 
-        $ticketFeb = Ticket::whereMonth('created_at', '02')->get();
-        $countTicketFeb= count($ticketFeb);
+        $codeFeb = Code::whereMonth('created_at', '02')->get();
+        $countCodeFeb= count($codeFeb);
 
-        $ticketMar = Ticket::whereMonth('created_at', '03')->get();
-        $countTicketMar = count($ticketMar);
+        $codeMar = Code::whereMonth('created_at', '03')->get();
+        $countCodeMar = count($codeMar);
 
-        $ticketApr = Ticket::whereMonth('created_at', '04')->get();
-        $countTicketApr = count($ticketApr);
+        $codeApr = Code::whereMonth('created_at', '04')->get();
+        $countCodeApr = count($codeApr);
 
-        $ticketMei = Ticket::whereMonth('created_at', '05')->get();
-        $countTicketMei = count($ticketMei);
+        $codeMei = Code::whereMonth('created_at', '05')->get();
+        $countCodeMei = count($codeMei);
 
-        $ticketJun = Ticket::whereMonth('created_at', '06')->get();
-        $countTicketJun = count($ticketJun);
+        $codeJun = Code::whereMonth('created_at', '06')->get();
+        $countCodeJun = count($codeJun);
 
-        $ticketJul = Ticket::whereMonth('created_at', '07')->get();
-        $countTicketJul = count($ticketJul);
+        $codeJul = Code::whereMonth('created_at', '07')->get();
+        $countCodeJul = count($codeJul);
 
-        $ticketAug = Ticket::whereMonth('created_at', '08')->get();
-        $countTicketAug = count($ticketAug);
+        $codeAug = Code::whereMonth('created_at', '08')->get();
+        $countCodeAug = count($codeAug);
 
-        $ticketSep = Ticket::whereMonth('created_at', '09')->get();
-        $countTicketSep = count($ticketSep);
+        $codeSep = Code::whereMonth('created_at', '09')->get();
+        $countCodeSep = count($codeSep);
 
-        $ticketOkt = Ticket::whereMonth('created_at', '10')->get();
-        $countTicketOkt = count($ticketOkt);
+        $codeOkt = Code::whereMonth('created_at', '10')->get();
+        $countCodeOkt = count($codeOkt);
 
-        $ticketNov = Ticket::whereMonth('created_at', '11')->get();
-        $countTicketNov = count($ticketNov);
+        $codeNov = Code::whereMonth('created_at', '11')->get();
+        $countCodeNov = count($codeNov);
 
-        $ticketDec = Ticket::whereMonth('created_at', '12')->get();
-        $countTicketDec = count($ticketDec);
+        $codeDec = Code::whereMonth('created_at', '12')->get();
+        $countCodeDec = count($codeDec);
 
         return view('admin.home',[   'orderCount' => $countOrder,
-                                    'ticketCount' => $countTicket,
-                                    'usedTicketCount' => $countUsedTickets,
+                                    'codeCount' => $countCode,
+                                    'usedCodeCount' => $countUsedCodes,
                                     'orderJan' => $countOrderJan,
                                     'orderFeb' => $countOrderFeb,
                                     'orderMar' => $countOrderMar,
@@ -125,17 +125,17 @@ class HomeController extends Controller
                                     'orderOkt' => $countOrderOkt,
                                     'orderNov' => $countOrderNov,
                                     'orderDec' => $countOrderDec,
-                                    'ticketJan' => $countTicketJan,
-                                    'ticketFeb' => $countTicketFeb,
-                                    'ticketMar' => $countTicketMar,
-                                    'ticketApr' => $countTicketApr,
-                                    'ticketMei' => $countTicketMei,
-                                    'ticketJun' => $countTicketJun,
-                                    'ticketJul' => $countTicketJul,
-                                    'ticketAug' => $countTicketAug,
-                                    'ticketSep' => $countTicketSep,
-                                    'ticketOkt' => $countTicketOkt,
-                                    'ticketNov' => $countTicketNov,
-                                    'ticketDec' => $countTicketDec]);
+                                    'codeJan' => $countCodeJan,
+                                    'codeFeb' => $countCodeFeb,
+                                    'codeMar' => $countCodeMar,
+                                    'codeApr' => $countCodeApr,
+                                    'codeMei' => $countCodeMei,
+                                    'codeJun' => $countCodeJun,
+                                    'codeJul' => $countCodeJul,
+                                    'codeAug' => $countCodeAug,
+                                    'codeSep' => $countCodeSep,
+                                    'codeOkt' => $countCodeOkt,
+                                    'codeNov' => $countCodeNov,
+                                    'codeDec' => $countCodeDec]);
     }
 }

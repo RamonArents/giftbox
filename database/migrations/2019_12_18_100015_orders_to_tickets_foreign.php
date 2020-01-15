@@ -13,7 +13,7 @@ class OrdersToTicketsForeign extends Migration
      */
     public function up()
     {
-        Schema::table('tickets', function (Blueprint $table) {
+        Schema::table('codes', function (Blueprint $table) {
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
         });
     }
@@ -25,7 +25,7 @@ class OrdersToTicketsForeign extends Migration
      */
     public function down()
     {
-        Schema::table('tickets', function (Blueprint $table) {
+        Schema::table('codes', function (Blueprint $table) {
             $table->dropForeign('order_id');
         });
     }

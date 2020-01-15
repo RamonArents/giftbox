@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class TicketMigration extends Migration
+class CodeMigration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class TicketMigration extends Migration
      */
     public function up()
     {
-        Schema::create('tickets', function (Blueprint $table) {
+        Schema::create('codes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('order_id');
-            $table->integer('ticketNumber')->unique();
+            $table->integer('codeNumber')->unique();
             $table->boolean('used');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class TicketMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tickets');
+        Schema::dropIfExists('codes');
     }
 }
