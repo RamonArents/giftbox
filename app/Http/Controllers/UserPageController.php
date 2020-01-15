@@ -168,30 +168,22 @@ class UserPageController extends Controller
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
         }
         else{
-            //TODO: Turn LED on and give the user feedback from which LED is on
-            /*
-             * Light candles from first to last
-             * Light selected candle for two minutes
-             * If candle burns, it cannot be on
-             */
             $leds = file_get_contents(storage_path('ledjes.json'));
             $ledsData = json_decode($leds, true);
 
             $ledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-            $ledsData['led_list'] = [array_rand($ledArray, 1)];
+            $ledsData['led_list'] = $ledArray[0]; //array_rand($ledArray, 1)
             $newLeds = json_encode($ledsData, JSON_PRETTY_PRINT);
             file_put_contents(storage_path('ledjes.json'), stripslashes($newLeds));
-            unset($ledArray, $ledsData['led_list'][0]);
-            $timeNow = time();
+            unset($ledArray[$ledsData['led_list']]);
 
             $getCode->used = true;
             $getCode->save();
 
-            if(time() >= $timeNow + 10){
-                array_push($ledArray, $ledsData['led_list'][0]);
+            if(time() + 10 > time()){
+                array_unshift($ledArray, $ledsData['led_list']);
             }
-            dd($ledsData['led_list']);
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr '.$ledsData['led_list']);
+            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ' . $ledsData['led_list']);
         }
     }
     /**
