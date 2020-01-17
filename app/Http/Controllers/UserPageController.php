@@ -153,7 +153,7 @@ class UserPageController extends Controller
     }
 
     /**
-     * Function to activate the cadles
+     * Function to activate the candles
      * @param Request to get the request from the user
      * @return doneer.blade.php
      */
