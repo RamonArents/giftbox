@@ -180,7 +180,7 @@ class UserPageController extends Controller
             $getCode->used = true;
             $getCode->save();
 
-            if(time() + 10 > time()){
+            if(time() > time() + 10){
                 array_unshift($ledArray, $ledsData['led_list']);
             }
             return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ' . $ledsData['led_list']);
