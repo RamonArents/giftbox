@@ -231,7 +231,7 @@ class UserPageController extends Controller
 
         $getBalance = Card::where('cardNumber', $cardNumber)->first();
 
-        if(!isset(   $getBalance)){
+        if(!isset($getBalance)){
             return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
         }else {
             return redirect()->route('getBalance')->with('success', 'Uw saldo is €' . $getBalance->balance);
