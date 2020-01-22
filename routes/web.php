@@ -30,6 +30,8 @@ Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
 Route::post('/activate', 'UserPageController@useCode')->name('usecode');
 //route that gets json file to target LEDS
 Route::get('/jsonLED', 'UserPageController@getLeds')->name('getLeds');
+//get the page to set credits on the RFID
+Route::get('/opladen','UserPageController@addCredits')->name('addCredits');
 //login (only for admin)
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');

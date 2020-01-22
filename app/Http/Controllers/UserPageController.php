@@ -194,6 +194,13 @@ class UserPageController extends Controller
         return response()->file(storage_path('ledjes.json'));
     }
     /**
+     * Function to get the view to add credits to the RFID
+     * @return view opladen
+     */
+    public function addCredits(){
+        return view('opladen');
+    }
+    /**
      * Check if the paymentstatus
      * @param the order id
      * @return, the payed view with success or error

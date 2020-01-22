@@ -130,6 +130,26 @@ body {
   margin-left: 10px;
 }
 
+.check-saldo {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+          flex-direction: row;
+  width: 500px;
+}
+
+.check-saldo button {
+  width: 90%;
+  margin-left: 20px;
+  margin-top: -10px;
+}
+
+#getSaldo {
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
 .submit-to-checkout {
   width: 70%;
 }
@@ -192,6 +212,20 @@ iframe {
 
   .background {
     background-color: saddlebrown;
+  }
+
+  .check-saldo {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column;
+    width: 340px;
+  }
+
+  .check-saldo button {
+    margin-left: 5px;
+    width: 66%;
   }
 }
 
