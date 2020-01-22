@@ -51,7 +51,7 @@
                                 <a class="nav-link" href="{{ route('buycode') }}">Koop code</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('addCredits') }}">Saldo opladen</a>
+                                <a class="nav-link" href="{{ route('getBalance') }}">Saldo opladen</a>
                             </li>
                         @else
                             <li class="nav-item">

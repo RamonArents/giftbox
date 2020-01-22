@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <form action="{{ action('UserPageController@pay') }}" method="post">
+    @include('messages.messages')
+    <form action="{{ action('UserPageController@addBalance') }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">
             <label for="card">Kaartnummer:</label><br>

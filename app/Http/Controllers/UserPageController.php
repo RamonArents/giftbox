@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Code;
 use App\Order;
+use App\Card;
 use Storage;
 
 class UserPageController extends Controller
@@ -194,11 +195,27 @@ class UserPageController extends Controller
         return response()->file(storage_path('ledjes.json'));
     }
     /**
-     * Function to get the view to add credits to the RFID
+     * Function to get the view to get the balance of the RFID card
      * @return view opladen
      */
-    public function addCredits(){
+    public function getBalancePage(){
+
         return view('opladen');
+    }
+    /**
+     * Function to add balance to the RFID card
+     * @param Request, the card to add balance
+     * @return redirect to view opladen
+     */
+    public function addBalance(Request $request){
+        $cardNumber = $request->input('card');
+
+        $selectedCard = Card::where('cardNumber', $cardNumber)->first();
+        //TODO: change default value
+        $selectedCard->balance = 20;
+        $selectedCard->save();
+
+        return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $selectedCard->balance);
     }
     /**
      * Check if the paymentstatus
