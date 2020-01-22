@@ -211,11 +211,31 @@ class UserPageController extends Controller
         $cardNumber = $request->input('card');
 
         $selectedCard = Card::where('cardNumber', $cardNumber)->first();
-        //TODO: change default value
-        $selectedCard->balance = 20;
-        $selectedCard->save();
 
-        return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $selectedCard->balance);
+        if(!isset($selectedCard)){
+            return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
+        }else {
+            //TODO: change default value
+            $selectedCard->balance = 20;
+            $selectedCard->save();
+            return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $selectedCard->balance);
+        }
+    }
+    /**
+     * Function to check the balance of the RFID card
+     * @param Request, the card to be checked
+     * @return redirect to view opladen
+     */
+    public function getBalanceFromDB(Request $request){
+        $cardNumber = $request->input('cardNumber');
+
+        $getBalance = Card::where('cardNumber', $cardNumber)->first();
+
+        if(!isset(   $getBalance)){
+            return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
+        }else {
+            return redirect()->route('getBalance')->with('success', 'Uw saldo is €' . $getBalance->balance);
+        }
     }
     /**
      * Check if the paymentstatus

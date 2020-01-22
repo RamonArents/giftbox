@@ -34,6 +34,8 @@ Route::get('/jsonLED', 'UserPageController@getLeds')->name('getLeds');
 Route::get('/opladen','UserPageController@getBalancePage')->name('getBalance');
 //set balance on RFID
 Route::post('/addBalance', 'UserPageController@addBalance')->name('addBalance');
+//set value to get balance
+Route::post('/getBalanceFromDB', 'UserPageController@getBalanceFromDB')->name('getBalanceFromDB');
 //login (only for admin)
 Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
