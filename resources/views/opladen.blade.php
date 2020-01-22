@@ -11,6 +11,7 @@
             <input class="doneer-buttons submit-to-checkout" type="submit" value="Opladen">
         </div>
     </form>
+    <br>
     <form action="{{ action('UserPageController@getBalanceFromDB') }}" method="post">
         {{ csrf_field() }}
         <div class="form-check col-xl-3 mx-auto">
