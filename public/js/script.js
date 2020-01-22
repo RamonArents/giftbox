@@ -93,10 +93,10 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function getValueFromCard() {
+window.getValueFromCard = function () {
   var cardNumber = document.getElementById('card').value;
   document.getElementById('cardNumber').value = cardNumber;
-}
+};
 
 /***/ }),
 

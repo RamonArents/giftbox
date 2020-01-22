@@ -1,10 +1,4 @@
 @extends('layouts.app')
-<script>
-    function getValueFromCard(){
-        let cardNumber = document.getElementById('card').value;
-        document.getElementById('cardNumber').value = cardNumber;
-    }
-</script>
 @section('content')
     @include('messages.messages')
     <form action="{{ action('UserPageController@addBalance') }}" method="post">
