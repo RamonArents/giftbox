@@ -1,10 +1,10 @@
-<!--modal for deleting an order-->
-<div class="modal fade" id="deleteOrderModal{{ $id }}" role="dialog">
+<!--modal for deleting a code-->
+<div class="modal fade" id="deleteCardModal{{ $id }}" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <p>Weet u zeker dat u deze order wil verwijderen?</p>
-                <form action="{{ action('AdminController@deleteOrder', ['id' => $id]) }}" method="post">
+                <p>Weet u zeker dat u deze kaart wil verwijderen?</p>
+                <form action="{{ action('AdminController@deleteCard', ['id' => $id]) }}" method="post">
                     {{ csrf_field() }}
                     <input type="submit" class="btn btn-danger" value="Verwijderen">
                     <button type="button" class="btn btn-secondary closebutton" data-dismiss="modal">Sluiten</button>

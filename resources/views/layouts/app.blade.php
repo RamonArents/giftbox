@@ -63,6 +63,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('codes') }}" role="button">Codes</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('cards') }}" role="button">Kaarten</a>
+                            </li>
                             <li>
                                 <a class="nav-link"
                                    href="{{ route('logout') }}"

@@ -6,6 +6,7 @@ use App\Code;
 use Illuminate\Http\Request;
 use Auth;
 use App\Order;
+use App\Card;
 
 class AdminController extends Controller
 {
@@ -108,9 +109,62 @@ class AdminController extends Controller
      */
     public function deleteCode($id)
     {
-        $ticket = Code::find($id);
-        $ticket->delete();
+        $code = Code::find($id);
+        $code->delete();
 
         return redirect('/codes')->with('success', 'Code successfully deleted.');
     }
+
+    /**
+     * show the cards table
+     * @return view, the cards view
+     */
+    public function cards()
+    {
+        $cards = Card::all();
+
+        return view('admin.cards', ['cards' => $cards]);
+    }
+
+    /**
+     * edit the card view
+     * @param $id , the id of the selected card to edit
+     * @return view, the card view
+     */
+    public function editCardView($id)
+    {
+        $card = Card::find($id);
+
+        return view('admin.edit-card', ['card' => $card]);
+    }
+
+    /**
+     * edit the card
+     * @param $id , the id of the card to edit
+     * @param $request , the request to save the edited values
+     * @return redirect to view with success
+     */
+    public function editCard(Request $request, $id)
+    {
+        $code = Card::find($id);
+        $code->cardNumber = $request->input('card');
+        $code->balance = $request->input('balance');
+        $code->save();
+
+        return redirect('/cards')->with('success', 'Card successfully edited.');
+    }
+
+    /**
+     * delete the card(soft delete)
+     * @param $id , the id of the card to delete
+     * @return redirect to view with success
+     */
+    public function deleteCard($id)
+    {
+        $card = Card::find($id);
+        $card->delete();
+
+        return redirect('/cards')->with('success', 'Card successfully deleted.');
+    }
+
 }
