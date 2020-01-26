@@ -16,7 +16,7 @@ class AddCardData extends Migration
         Schema::create('card', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('payment_id');
-            $table->string('cardNumber');
+            $table->integer('cardNumber')->unique();
             $table->integer('balance');
             $table->timestamps();
         });
