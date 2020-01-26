@@ -1,6 +1,9 @@
 @extends('layouts.app')
 @section('content')
-    @include('messages.messages')
+    <div class="flex-center position-ref full-height">
+        <div class="row justify-content-center opladen-width">
+            @include('messages.messages')
+        </div>
     <form action="{{ action('UserPageController@addBalance') }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">

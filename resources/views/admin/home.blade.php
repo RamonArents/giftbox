@@ -26,7 +26,7 @@
         let orderOkt = $('.orderOkt').data('order-okt');
         let orderNov = $('.orderNov').data('order-nov');
         let orderDec = $('.orderDec').data('order-dec');
-        //tickets by month
+        //codes by month
         let codeJan = $('.codeJan').data('code-jan');
         let codeFeb = $('.codeFeb').data('code-feb');
         let codeMar = $('.codeMar').data('code-mar');
@@ -39,21 +39,34 @@
         let codeOkt = $('.codeOkt').data('code-okt');
         let codeNov = $('.codeNov').data('code-nov');
         let codeDec = $('.codeDec').data('code-dec');
+        //used codes by month
+        let usedCodeJan = $('.usedCodeJan').data('used-code-jan');
+        let usedCodeFeb = $('.usedCodeFeb').data('used-code-feb');
+        let usedCodeMar = $('.usedCodeMar').data('used-code-mar');
+        let usedCodeApr = $('.usedCodeApr').data('used-code-apr');
+        let usedCodeMei = $('.usedCodeMei').data('used-code-mei');
+        let usedCodeJun = $('.usedCodeJun').data('used-code-jun');
+        let usedCodeJul = $('.usedCodeJul').data('used-code-jul');
+        let usedCodeAug = $('.usedCodeAug').data('used-code-aug');
+        let usedCodeSep = $('.usedCodeSep').data('used-code-sep');
+        let usedCodeOkt = $('.usedCodeOkt').data('used-code-okt');
+        let usedCodeNov = $('.usedCodeNov').data('used-code-nov');
+        let usedCodeDec = $('.usedCodeDec').data('used-code-dec');
         // Some raw data (not necessarily accurate)
         let data = google.visualization.arrayToDataTable([
             ['Maand', 'Orders', 'Codes', 'Gebruikte codes'],
-            ['Jan',  orderJan, codeJan,0,],
-            ['Feb',  orderFeb, codeFeb, 0, ],
-            ['Mar',  orderMar, codeMar, 0, ],
-            ['apr',  orderApr, codeApr, 0,  ],
-            ['mei',  orderMei, codeMei, 0,  ],
-            ['jun',  orderJun, codeJun, 0,  ],
-            ['jul',  orderJul, codeJul, 0, ],
-            ['aug',  orderAug, codeAug, 0,  ],
-            ['sep',  orderSep, codeSep, 0,  ],
-            ['okt',  orderOkt, codeOkt, 0,  ],
-            ['nov',  orderNov, codeNov, 0,  ],
-            ['dec',  orderDec, codeDec, 0,  ]
+            ['Jan',  orderJan, codeJan, usedCodeJan,],
+            ['Feb',  orderFeb, codeFeb, usedCodeFeb, ],
+            ['Mar',  orderMar, codeMar, usedCodeMar, ],
+            ['apr',  orderApr, codeApr, usedCodeApr,  ],
+            ['mei',  orderMei, codeMei, usedCodeMei,  ],
+            ['jun',  orderJun, codeJun, usedCodeJun,  ],
+            ['jul',  orderJul, codeJul, usedCodeJul, ],
+            ['aug',  orderAug, codeAug, usedCodeAug,  ],
+            ['sep',  orderSep, codeSep, usedCodeSep,  ],
+            ['okt',  orderOkt, codeOkt, usedCodeOkt,  ],
+            ['nov',  orderNov, codeNov, usedCodeNov,  ],
+            ['dec',  orderDec, codeDec, usedCodeDec,  ]
         ]);
 
         let options = {
@@ -119,9 +132,9 @@
                         </div>
                     @endif
                         <!-- all data-->
-                        <div class="orderCount" data-order-count="{{ $orderCount }}"></div>
-                        <div class="codeCount" data-code-count="{{ $codeCount }}"></div>
-                        <div class="usedCodeCount" data-used-code-count="{{ $usedCodeCount }}"></div>
+                        {{--<div class="orderCount" data-order-count="{{ $orderCount }}"></div>--}}
+                        {{--<div class="codeCount" data-code-count="{{ $codeCount }}"></div>--}}
+                        {{--<div class="usedCodeCount" data-used-code-count="{{ $usedCodeCount }}"></div>--}}
                         <!-- orders by month-->
                         <div class="orderJan" data-order-jan="{{ $orderJan }}"></div>
                         <div class="orderFeb" data-order-feb="{{ $orderFeb }}"></div>
@@ -135,7 +148,7 @@
                         <div class="orderOkt" data-order-okt="{{ $orderOkt }}"></div>
                         <div class="orderNov" data-order-nov="{{ $orderNov }}"></div>
                         <div class="orderDec" data-order-dec="{{ $orderDec }}"></div>
-                        <!-- tickets by month-->
+                        <!-- codes by month-->
                         <div class="codeJan" data-code-jan="{{ $codeJan }}"></div>
                         <div class="codeFeb" data-code-feb="{{ $codeFeb }}"></div>
                         <div class="codeMar" data-code-mar="{{ $codeMar }}"></div>
@@ -148,6 +161,19 @@
                         <div class="codeOkt" data-code-okt="{{ $codeOkt }}"></div>
                         <div class="codeNov" data-code-nov="{{ $codeNov }}"></div>
                         <div class="codeDec" data-code-dec="{{ $codeDec }}"></div>
+                        <!--used codes by month-->
+                        <div class="usedCodeJan" data-used-code-jan="{{ $usedCodesJan }}"></div>
+                        <div class="usedCodeFeb" data-used-code-feb="{{ $usedCodesFeb }}"></div>
+                        <div class="usedCodeMar" data-used-code-mar="{{ $usedCodesMar }}"></div>
+                        <div class="usedCodeApr" data-used-code-apr="{{ $usedCodesApr }}"></div>
+                        <div class="usedCodeMei" data-used-code-mei="{{ $usedCodesMei }}"></div>
+                        <div class="usedCodeJun" data-used-code-jun="{{ $usedCodesJun }}"></div>
+                        <div class="usedCodeJul" data-used-code-jul="{{ $usedCodesJul }}"></div>
+                        <div class="usedCodeAug" data-used-code-aug="{{ $usedCodesAug }}"></div>
+                        <div class="usedCodeSep" data-used-code-sep="{{ $usedCodesSep }}"></div>
+                        <div class="usedCodeOkt" data-used-code-okt="{{ $usedCodesOkt }}"></div>
+                        <div class="usedCodeNov" data-used-code-nov="{{ $usedCodesNov }}"></div>
+                        <div class="usedCodeDec" data-used-code-dec="{{ $usedCodesDec }}"></div>
                         <div class="col-md-12">
                             <div id="chart_div"></div>
                         </div>

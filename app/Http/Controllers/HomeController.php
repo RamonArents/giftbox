@@ -32,8 +32,42 @@ class HomeController extends Controller
         $codes = Code::all();
         $countCode = count($codes);
 
-        $usedCodes = Code::where('used', true)->get();
-        $countUsedCodes =  count($usedCodes);
+        //usedCodes by month
+        $usedCodesJan = Code::where('used', true)->whereMonth('created_at', '01')->get();
+        $countUsedCodesJan =  count($usedCodesJan);
+
+        $usedCodesFeb = Code::where('used', true)->whereMonth('created_at', '02')->get();
+        $countUsedCodesFeb =  count($usedCodesFeb);
+
+        $usedCodesMar = Code::where('used', true)->whereMonth('created_at', '03')->get();
+        $countUsedCodesMar =  count($usedCodesMar);
+
+        $usedCodesApr = Code::where('used', true)->whereMonth('created_at', '04')->get();
+        $countUsedCodesApr =  count($usedCodesApr);
+
+        $usedCodesMei = Code::where('used', true)->whereMonth('created_at', '05')->get();
+        $countUsedCodesMei =  count($usedCodesMei);
+
+        $usedCodesJun = Code::where('used', true)->whereMonth('created_at', '06')->get();
+        $countUsedCodesJun =  count($usedCodesJun);
+
+        $usedCodesJul = Code::where('used', true)->whereMonth('created_at', '07')->get();
+        $countUsedCodesJul =  count($usedCodesJul);
+
+        $usedCodesAug = Code::where('used', true)->whereMonth('created_at', '08')->get();
+        $countUsedCodesAug =  count($usedCodesAug);
+
+        $usedCodesSep = Code::where('used', true)->whereMonth('created_at', '09')->get();
+        $countUsedCodesSep =  count($usedCodesSep);
+
+        $usedCodesOkt = Code::where('used', true)->whereMonth('created_at', '10')->get();
+        $countUsedCodesOkt =  count($usedCodesOkt);
+
+        $usedCodesNov = Code::where('used', true)->whereMonth('created_at', '11')->get();
+        $countUsedCodesNov =  count($usedCodesNov);
+
+        $usedCodesDec = Code::where('used', true)->whereMonth('created_at', '12')->get();
+        $countUsedCodesDec =  count($usedCodesDec);
 
         //orders by month
         $orderJan = Order::whereMonth('created_at', '01')->get();
@@ -112,7 +146,18 @@ class HomeController extends Controller
 
         return view('admin.home',[   'orderCount' => $countOrder,
                                     'codeCount' => $countCode,
-                                    'usedCodeCount' => $countUsedCodes,
+                                    'usedCodesJan' => $countUsedCodesJan,
+                                    'usedCodesFeb' => $countUsedCodesFeb,
+                                    'usedCodesMar' => $countUsedCodesMar,
+                                    'usedCodesApr' => $countUsedCodesApr,
+                                    'usedCodesMei' => $countUsedCodesMei,
+                                    'usedCodesJun' => $countUsedCodesJun,
+                                    'usedCodesJul' => $countUsedCodesJul,
+                                    'usedCodesAug' => $countUsedCodesAug,
+                                    'usedCodesSep' => $countUsedCodesSep,
+                                    'usedCodesOkt' => $countUsedCodesOkt,
+                                    'usedCodesNov' => $countUsedCodesNov,
+                                    'usedCodesDec' => $countUsedCodesDec,
                                     'orderJan' => $countOrderJan,
                                     'orderFeb' => $countOrderFeb,
                                     'orderMar' => $countOrderMar,
