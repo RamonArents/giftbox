@@ -149,6 +149,10 @@ body {
   min-width: 25%;
 }
 
+.opladen-width h2 {
+  font-size: 1.4em;
+}
+
 #getSaldo {
   margin-top: 5px;
   margin-left: 5px;
