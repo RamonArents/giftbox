@@ -18,6 +18,22 @@
                 <label for="card">Kaartnummer:</label><br>
                 <input class="form-control" id="card" type="text" name="card" onkeyup="getValueFromCard()" value="{{ old('card') }}" autocomplete="off" required/>
             </div>
+            <div class="form-group col-xl-3 mx-auto">
+                <label for="amount">Bedrag (max €20):</label><br>
+                <input class="form-control" id="amount" type="number" name="amount" min="1" max="20" value="{{ old('amount') }}" required/>
+            </div>
+            <div class="form-check col-xl-3 mx-auto">
+                <label class="form-check-label" for="paymethod-ideal">Ideal
+                    <input class="form-check-input" id="paymethod-ideal" type="radio" name="paymethod" value="ideal"/>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="form-check col-xl-3 mx-auto">
+                <label class="form-check-label" for="paymethod-paypal">Paypal
+                    <input class="form-check-input" id="paymethod-paypal" type="radio" name="paymethod" value="paypal"/>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
             <div class="form-check col-xl-3 mx-auto">
                 <input class="doneer-buttons submit-to-checkout" type="submit" value="Opladen">
             </div>

@@ -22,6 +22,7 @@ Route::post('/pay', 'UserPageController@pay')->name('pay');
 Route::get('/payment', 'UserPageController@payed')->name('webhook');
 //payed URL
 Route::get('/payed/{orderNumber}', 'UserPageController@finishPayment')->name('finish');
+Route::get('/opladen_payed/{cardNumber}', 'UserPageController@finishPaymentAddToCard')->name('finishAdd');
 //order status URL
 Route::get('/order-status/{order}/{payment}', 'UserPageController@getOrderStatus')->name('order_status');
 // mail URL

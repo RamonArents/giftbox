@@ -103,11 +103,11 @@ class UserPageController extends Controller
             $orderTableId = Order::where('orderNumber', $orderNumber)->first();
             for($i = 0; $i < (int) $numberOfCodes; $i++){
                 //create tickets as many as the numberOfCodes
-                $ticket = new Code;
-                $ticket->order_id = $orderTableId->id;
-                $ticket->codeNumber = rand(1, 1000000000);
-                $ticket->used = false;
-                $ticket->save();
+                $code = new Code;
+                $code->order_id = $orderTableId->id;
+                $code->codeNumber = rand(1, 1000000000);
+                $code->used = false;
+                $code->save();
             }
             /*
              * Send the customer off to complete the payment.
@@ -123,7 +123,7 @@ class UserPageController extends Controller
 
     /**
      * Function to finish the payment
-     * @param Ticket object
+     * @param Code object
      * @return view doneer
      */
     public function finishPayment($orderNumber){
@@ -215,11 +215,83 @@ class UserPageController extends Controller
         if(!isset($selectedCard)){
             return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
         }else {
-            //TODO: change default value
-            $selectedCard->balance = 20;
-            $selectedCard->save();
-            return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $selectedCard->balance);
+            try {
+                //initialize Mollie
+                $mollie = $this->APIKeyData();
+                $amount = $request->input('amount');
+                $totalEuros = number_format($amount, 2);
+                //check if the user wants to pay with ideal or paypal
+                if($request->input('paymethod') == 'ideal'){
+                    $payMethod = 'ideal';
+                }else{
+                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
+                }
+                /*
+                 * Generate a unique order id for this example. It is important to include this unique attribute
+                 * in the redirectUrl (below) so a proper return page can be shown to the customer.
+                 */
+                //$orderNumber = time();
+                /*
+                 * Payment parameters:
+                 *   amount        Amount in EUROs.
+                 *   description   Description of the payment.
+                 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
+                 *   webhookUrl    Webhook location, used to report when the payment changes state.
+                 *   metadata      Custom metadata that is stored with the payment.
+                 */
+                $payment = $mollie->payments->create([
+                    "amount" => [
+                        "currency" => "EUR",
+                        "value" => $totalEuros // You must send the correct number of decimals, thus we enforce the use of strings
+                    ],
+                    "method" => $payMethod,
+                    "description" => "Order #{$cardNumber}",
+                    "redirectUrl" => route('finishAdd', ['cardNumber' => $cardNumber]),
+                    "webhookUrl" => route('webhook'),
+                    "metadata" => [
+                        "order_id" => $cardNumber,
+                    ],
+                ]);
+                //validate the data
+                $this->validate($request, [
+                    'card' => ['required', 'string'],
+                    'amount' => ['required', 'integer'],
+                ]);
+                $selectedCard->payment_id = $payment->id;
+                $selectedCard->cardNumber = $cardNumber;
+                $selectedCard->balance = $selectedCard->balance + $amount;
+                $selectedCard->save();
+                /*
+                 * Send the customer off to complete the payment.
+                 * This request should always be a GET, thus we enforce 303 http response code
+                 */
+                return redirect($payment->getCheckoutUrl(), 303);
+
+            } catch (\Mollie\Api\Exceptions\ApiException $e) {
+                echo "API call failed: (Pay)" . htmlspecialchars($e->getMessage());
+            }
         }
+    }
+    /**
+     * Function to finish the payment
+     * @param Code object
+     * @return view doneer
+     */
+    public function finishPaymentAddToCard($cardNumber){
+        //get the right order from the DB
+        $card = Card::where('cardNumber', $cardNumber)->first();
+        $mollie = $this->APIKeyData();
+        //find the Mollie payment
+        $payment = $mollie->payments->get($card->payment_id);
+        // if the order isn't paid, return a page with the current status
+        if (!$payment->isPaid()) {
+            return view('order_status', [
+                'payment' => $payment,
+                'order' => $card,
+            ]);
+        }
+        //redirect to send email with the codes
+        return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $card->balance);
     }
     /**
      * Function to check the balance of the RFID card
