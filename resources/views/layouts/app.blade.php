@@ -55,7 +55,19 @@
                             </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('home') }}" role="button">Home</a>
+                                <a class="nav-link" href="{{ route('homepage') }}">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('donatiepage') }}">Doneer</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('buycode') }}">Koop code</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('getBalance') }}">Saldo opladen</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}" role="button">Statistieken</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('orders') }}" role="button">Orders</a>

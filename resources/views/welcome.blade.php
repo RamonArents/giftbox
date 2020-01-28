@@ -14,7 +14,7 @@
         <div class="row justify-content-center">
             <div class="col-md-5">
             <div class="text-center homepageview">
-                <p>Op deze website kunt u een kaarsje opsteken voor uw dierbare. Door een donatie te doen aan de kerk krijgt u een code. Met deze code kunt u uw kaarsje live zien gaan branden.</p>
+                <p>Op deze website kunt u een donatie doen. Door een code te kopen doet u een donatie. Als u deze op de website verzilverd zal er een lampje gaan branden als dank.</p>
                 <a href="{{ route('donatiepage') }}" class="btn homepage-button">Doneer</a>
             </div>
         </div>

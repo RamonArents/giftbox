@@ -51,12 +51,13 @@ class UserPageController extends Controller
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
             $totalEuros = number_format($numberOfCodes, 2);
-            //check if the user wants to pay with ideal or paypal
-            if($request->input('paymethod') == 'ideal'){
-                $payMethod = 'ideal';
-            }else{
-                $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
-            }
+            //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
+//            if($request->input('paymethod') == 'ideal'){
+//                $payMethod = 'ideal';
+//            }else{
+//                $payMethod = 'paypal'; // or creditcard.
+//            }
+            $payMethod = 'ideal';
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -220,12 +221,13 @@ class UserPageController extends Controller
                 $mollie = $this->APIKeyData();
                 $amount = $request->input('amount');
                 $totalEuros = number_format($amount, 2);
-                //check if the user wants to pay with ideal or paypal
-                if($request->input('paymethod') == 'ideal'){
-                    $payMethod = 'ideal';
-                }else{
-                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
-                }
+                //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
+//                if($request->input('paymethod') == 'ideal'){
+//                    $payMethod = 'ideal';
+//                }else{
+//                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
+//                }
+                $payMethod = 'ideal';
                 /*
                  * Generate a unique order id for this example. It is important to include this unique attribute
                  * in the redirectUrl (below) so a proper return page can be shown to the customer.
