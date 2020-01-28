@@ -12,7 +12,7 @@ class MailController extends Controller
     /**
      * Sends confirmation mail to user
      * @params $paymentId (the ticket with the user payment_id)
-     * @return Redirect to the doneer.blade. The user wil receive a mail with the ticket code
+     * @return Redirect to the doneer.blade. The user wil receive a mail with the code
      */
     public function ship($paymentId){
 

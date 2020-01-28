@@ -17,7 +17,7 @@
                         <label for="code">Verzilver code:</label><br>
                         <input class="form-control" id="code" type="text" name="code" value="{{ old('code') }}" required/>
                     </div>
-                    <input class="doneer-buttons" type="submit" value="Laat lampje branden">
+                    <input class="doneer-buttons" type="submit" value="Zet lampje aan">
                 </form>
                 <p>Of:</p>
                 <!--Buy ticket to use on website-->

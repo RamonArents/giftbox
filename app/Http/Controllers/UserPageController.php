@@ -185,7 +185,7 @@ class UserPageController extends Controller
             if(time() > time() + 10){
                 array_unshift($ledArray, $ledsData['led_list']);
             }
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ' . $ledsData['led_list']);
+            return redirect()->route('donatiepage')->with('success', 'U lampje brand nu. U heeft lampje ' . $ledsData['led_list']);
         }
     }
     /**
@@ -311,52 +311,6 @@ class UserPageController extends Controller
             return redirect()->route('getBalance')->with('success', 'Uw saldo is €' . $getBalance->balance);
         }
     }
-    /**
-     * Check if the paymentstatus
-     * @param the order id
-     * @return, the payed view with success or error
-     */
-    protected function checkPayment($paymentId){
-        try {
-            //status payment
-            $payStatus = '';
-            //initialize Mollie
-            $mollie = $this->APIKeyData();
-
-            $payment = $mollie->payments->get($paymentId);
-
-
-            if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
-                $payStatus = 'paid';
-            } elseif ($payment->isOpen()) {
-                $payStatus = 'open';
-            } elseif ($payment->isPending()) {
-                $payStatus = 'pending';
-            } elseif ($payment->isFailed()) {
-                $payStatus = 'failed';
-            } elseif ($payment->isExpired()) {
-                $payStatus = 'expired';
-            } elseif ($payment->isCanceled()) {
-                $payStatus = 'refused';
-            } elseif ($payment->hasRefunds()) {
-                /*
-                 * The payment has been (partially) refunded.
-                 * The status of the payment is still "paid"
-                 */
-                $payStatus = 'paid';
-            } elseif ($payment->hasChargebacks()) {
-                /*
-                 * The payment has been (partially) charged back.
-                 * The status of the payment is still "paid"
-                 */
-                $payStatus = 'paid';
-            }
-            return $payStatus;
-        } catch (\Mollie\Api\Exceptions\ApiException $e) {
-            echo "API call failed (checkPayment): " . htmlspecialchars($e->getMessage());
-        }
-    }
-
     /**
      * This function contains the API key for mollie
      * @return Mollie payment object

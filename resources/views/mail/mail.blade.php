@@ -42,22 +42,22 @@
 </head>
 <body>
 <header>
-    <h1>Code om kaarsje op te steken.</h1>
+    <h1>Code om een lampje aan te zetten.</h1>
 </header>
 <div class="mail-content">
-    <p>Hierbij ontvangt u de code(s) om een kaarsje op te steken. De code(s) kunnen worden verzilverd op de website en zijn voor eenmalig gebruik.</p>
+    <p>Hierbij ontvangt u de code(s) om een lampje aan te zetten. De code(s) kunnen worden verzilverd op de website en zijn voor eenmalig gebruik.</p>
     @php $count = 0; @endphp
     <p>
     @foreach($ticketNumber as $code)
        Code {{ $count+=1 }}: {{  $code->codeNumber }}<br />
     @endforeach
     </p>
-    <p>Het is niet mogelijk om op deze email te reageren. Bij problemen kunt u contact opnemen met (plaats contactgegevens hier).</p>
+    <p>Het is niet mogelijk om op deze email te reageren.</p>
     <p>Met vriendelijke groet,</p>
     <p>Giftbox.</p>
 </div>
 <footer>
-    <p>Copyright Giftbox <script>let date = new Date(); document.write(date.getFullYear());</script></p>
+    <p>Copyright Giftbox</p>
 </footer>
 </body>
 </html>
