@@ -51,12 +51,13 @@ class UserPageController extends Controller
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
             $totalEuros = number_format($numberOfCodes, 2);
-            //check if the user wants to pay with ideal or paypal
-            if($request->input('paymethod') == 'ideal'){
-                $payMethod = 'ideal';
-            }else{
-                $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
-            }
+            //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
+//            if($request->input('paymethod') == 'ideal'){
+//                $payMethod = 'ideal';
+//            }else{
+//                $payMethod = 'paypal'; // or creditcard.
+//            }
+            $payMethod = 'ideal';
             /*
              * Generate a unique order id for this example. It is important to include this unique attribute
              * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -184,7 +185,7 @@ class UserPageController extends Controller
             if(time() > time() + 10){
                 array_unshift($ledArray, $ledsData['led_list']);
             }
-            return redirect()->route('donatiepage')->with('success', 'U kaarsje brand nu. U heeft kaars nr ' . $ledsData['led_list']);
+            return redirect()->route('donatiepage')->with('success', 'U lampje brand nu. U heeft lampje ' . $ledsData['led_list']);
         }
     }
     /**
@@ -220,12 +221,13 @@ class UserPageController extends Controller
                 $mollie = $this->APIKeyData();
                 $amount = $request->input('amount');
                 $totalEuros = number_format($amount, 2);
-                //check if the user wants to pay with ideal or paypal
-                if($request->input('paymethod') == 'ideal'){
-                    $payMethod = 'ideal';
-                }else{
-                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
-                }
+                //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
+//                if($request->input('paymethod') == 'ideal'){
+//                    $payMethod = 'ideal';
+//                }else{
+//                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
+//                }
+                $payMethod = 'ideal';
                 /*
                  * Generate a unique order id for this example. It is important to include this unique attribute
                  * in the redirectUrl (below) so a proper return page can be shown to the customer.
@@ -259,7 +261,6 @@ class UserPageController extends Controller
                 ]);
                 $selectedCard->payment_id = $payment->id;
                 $selectedCard->cardNumber = $cardNumber;
-                $selectedCard->balance = $selectedCard->balance + $amount;
                 $selectedCard->save();
                 /*
                  * Send the customer off to complete the payment.
@@ -283,6 +284,8 @@ class UserPageController extends Controller
         $mollie = $this->APIKeyData();
         //find the Mollie payment
         $payment = $mollie->payments->get($card->payment_id);
+        //set the status to paid
+//        $payment->status = 'paid';
         // if the order isn't paid, return a page with the current status
         if (!$payment->isPaid()) {
             return view('order_status', [
@@ -290,6 +293,10 @@ class UserPageController extends Controller
                 'order' => $card,
             ]);
         }
+        //convert payment amount to number
+        $amount = intval($payment->amount->value);
+        $card->balance =  $card->balance + $amount;
+        $card->save();
         //redirect to send email with the codes
         return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $card->balance);
     }
@@ -309,52 +316,6 @@ class UserPageController extends Controller
             return redirect()->route('getBalance')->with('success', 'Uw saldo is €' . $getBalance->balance);
         }
     }
-    /**
-     * Check if the paymentstatus
-     * @param the order id
-     * @return, the payed view with success or error
-     */
-    protected function checkPayment($paymentId){
-        try {
-            //status payment
-            $payStatus = '';
-            //initialize Mollie
-            $mollie = $this->APIKeyData();
-
-            $payment = $mollie->payments->get($paymentId);
-
-
-            if ($payment->isPaid() && !$payment->hasRefunds() && !$payment->hasChargebacks()) {
-                $payStatus = 'paid';
-            } elseif ($payment->isOpen()) {
-                $payStatus = 'open';
-            } elseif ($payment->isPending()) {
-                $payStatus = 'pending';
-            } elseif ($payment->isFailed()) {
-                $payStatus = 'failed';
-            } elseif ($payment->isExpired()) {
-                $payStatus = 'expired';
-            } elseif ($payment->isCanceled()) {
-                $payStatus = 'refused';
-            } elseif ($payment->hasRefunds()) {
-                /*
-                 * The payment has been (partially) refunded.
-                 * The status of the payment is still "paid"
-                 */
-                $payStatus = 'paid';
-            } elseif ($payment->hasChargebacks()) {
-                /*
-                 * The payment has been (partially) charged back.
-                 * The status of the payment is still "paid"
-                 */
-                $payStatus = 'paid';
-            }
-            return $payStatus;
-        } catch (\Mollie\Api\Exceptions\ApiException $e) {
-            echo "API call failed (checkPayment): " . htmlspecialchars($e->getMessage());
-        }
-    }
-
     /**
      * This function contains the API key for mollie
      * @return Mollie payment object
