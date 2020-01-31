@@ -294,7 +294,7 @@ class UserPageController extends Controller
             ]);
         }
         //convert payment amount to number
-        $amount = intval($payment->amount->value);
+        $amount = intval($payment->amount);
         $card->balance =  $card->balance + $amount;
         $card->save();
         //redirect to send email with the codes
