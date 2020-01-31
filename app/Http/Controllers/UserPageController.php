@@ -261,7 +261,6 @@ class UserPageController extends Controller
                 ]);
                 $selectedCard->payment_id = $payment->id;
                 $selectedCard->cardNumber = $cardNumber;
-                $selectedCard->balance = $selectedCard->balance + $amount;
                 $selectedCard->save();
                 /*
                  * Send the customer off to complete the payment.
@@ -285,6 +284,8 @@ class UserPageController extends Controller
         $mollie = $this->APIKeyData();
         //find the Mollie payment
         $payment = $mollie->payments->get($card->payment_id);
+        //set the status to paid
+//        $payment->status = 'paid';
         // if the order isn't paid, return a page with the current status
         if (!$payment->isPaid()) {
             return view('order_status', [
@@ -292,6 +293,10 @@ class UserPageController extends Controller
                 'order' => $card,
             ]);
         }
+        //convert payment amount to number
+        $amount = intval($payment->amount->value);
+        $card->balance =  $card->balance + $amount;
+        $card->save();
         //redirect to send email with the codes
         return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $card->balance);
     }
