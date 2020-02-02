@@ -286,7 +286,7 @@ class UserPageController extends Controller
             ]);
         }
         //convert payment amount to number
-        $amount = intval($payment->amount);
+        $amount = intval($payment->amount->value);
         //add the amount to the balance and save the new value
         $card->balance =  $card->balance + $amount;
         $card->save();
