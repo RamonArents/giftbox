@@ -11,6 +11,16 @@ use App\Card;
 class AdminController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //only admin users are allowed to see this page
+        $this->middleware('auth');
+    }
+    /**
      * show the order table
      * @return view, the order view
      */
@@ -24,7 +34,7 @@ class AdminController extends Controller
     /**
      * edit the order with the selected id
      * @param $id , the id of the order to edit
-     * @return view, the order view
+     * @return view, the edit-order view
      */
     public function editOrderView($id)
     {
@@ -37,7 +47,7 @@ class AdminController extends Controller
      * edit the order
      * @param $id , the id of the order to edit
      * @param $request , the request to save the edited values
-     * @return redirect to view with success
+     * @return redirect to order view with success
      */
     public function editOrder(Request $request, $id)
     {
@@ -53,7 +63,7 @@ class AdminController extends Controller
     /**
      * delete the order (soft delete)
      * @param $id , the id of the order to delete
-     * @return redirect to view with success
+     * @return redirect to order view with success
      */
     public function deleteOrder($id)
     {
@@ -77,7 +87,7 @@ class AdminController extends Controller
     /**
      * edit the code view
      * @param $id , the id of the selected code to edit
-     * @return view, the order view
+     * @return view, the edit-code view
      */
     public function editCodeView($id)
     {
@@ -90,7 +100,7 @@ class AdminController extends Controller
      * edit the code
      * @param $id , the id of the code to edit
      * @param $request , the request to save the edited values
-     * @return redirect to view with success
+     * @return redirect to code view with success
      */
     public function editCode(Request $request, $id)
     {
@@ -105,7 +115,7 @@ class AdminController extends Controller
     /**
      * delete the code(soft delete)
      * @param $id , the id of the code to delete
-     * @return redirect to view with success
+     * @return redirect to code view with success
      */
     public function deleteCode($id)
     {
@@ -129,7 +139,7 @@ class AdminController extends Controller
     /**
      * edit the card view
      * @param $id , the id of the selected card to edit
-     * @return view, the card view
+     * @return view, the edit-card view
      */
     public function editCardView($id)
     {
@@ -142,7 +152,7 @@ class AdminController extends Controller
      * edit the card
      * @param $id , the id of the card to edit
      * @param $request , the request to save the edited values
-     * @return redirect to view with success
+     * @return redirect to card view with success
      */
     public function editCard(Request $request, $id)
     {
@@ -157,7 +167,7 @@ class AdminController extends Controller
     /**
      * delete the card(soft delete)
      * @param $id , the id of the card to delete
-     * @return redirect to view with success
+     * @return redirect to card view with success
      */
     public function deleteCard($id)
     {

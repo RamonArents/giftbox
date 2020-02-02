@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <!--edit a code-->
     <form action="{{ action('AdminController@editCode', ['id' => $code->id]) }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">
@@ -9,6 +10,7 @@
         <div class="form-group col-xl-3 mx-auto">
             <label for="used">Gebruikt:</label>
             <select id="used" name="used" class="mdb-select md-form">
+                <!--To check if the code is used, this lambda expression is used-->
                 <option value="1" {{ $code->used == '1' ? 'selected' : '' }}>Gebruikt</option>
                 <option value="0"{{ $code->used == '0' ? 'selected' : '' }}>Niet gebruikt</option>
             </select>

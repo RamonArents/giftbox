@@ -11,23 +11,26 @@
 |
 */
 
-// User routes
+/* User routes */
+//get user homepage view
 Route::get('/', 'UserPageController@getHomePage')->name('homepage');
+//get user doneer view
 Route::get('/doneer', 'UserPageController@getDoneerPage')->name('donatiepage');
-//route to buy code
+//get the route to buy a code
 Route::get('/buycode', 'UserPageController@getBuyPage')->name('buycode');
-// payment routes
+// pay for an order
 Route::post('/pay', 'UserPageController@pay')->name('pay');
-// webhook url
+// webhook url (this used to redirect from Mollie)
 Route::get('/payment', 'UserPageController@payed')->name('webhook');
-//payed URL
+//route to finish the payment for an order
 Route::get('/payed/{orderNumber}', 'UserPageController@finishPayment')->name('finish');
+//route to finish the payment for a card
 Route::get('/opladen_payed/{cardNumber}', 'UserPageController@finishPaymentAddToCard')->name('finishAdd');
-//order status URL
+//order status URL (only used if status is other then payed
 Route::get('/order-status/{order}/{payment}', 'UserPageController@getOrderStatus')->name('order_status');
-// mail URL
+// mail URL (sends the mail to the user)
 Route::get('sendMail/{paymentId}', 'MailController@ship')->name('sendmail');
-//activate code
+//route to activate code on the doneer page. The LED wil go on
 Route::post('/activate', 'UserPageController@useCode')->name('usecode');
 //route that gets json file to target LEDS
 Route::get('/jsonLED', 'UserPageController@getLeds')->name('getLeds');
@@ -46,9 +49,9 @@ Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-//homepage
+//homepage (admin)
 Route::get('/home', 'HomeController@index')->name('home');
-//admin routes
+/*admin routes*/
 Route::group(['middleware' => 'auth'], function(){
     //return orders view
     Route::get('/orders','AdminController@orders')->name('orders');

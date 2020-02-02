@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Bevestiging code</title>
+    <!--edit style for the email here-->
     <style>
         body{
             font-family: "Nunito", sans-serif;
@@ -41,6 +42,7 @@
     </style>
 </head>
 <body>
+<!--mail content-->
 <header>
     <h1>Code om een lampje aan te zetten.</h1>
 </header>
@@ -48,7 +50,8 @@
     <p>Hierbij ontvangt u de code(s) om een lampje aan te zetten. De code(s) kunnen worden verzilverd op de website en zijn voor eenmalig gebruik.</p>
     @php $count = 0; @endphp
     <p>
-    @foreach($ticketNumber as $code)
+     <!--Send the number of codes the user ordered-->
+    @foreach($codeNumber as $code)
        Code {{ $count+=1 }}: {{  $code->codeNumber }}<br />
     @endforeach
     </p>

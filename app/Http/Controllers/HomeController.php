@@ -15,6 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        //only admin users are allowed to see this page
         $this->middleware('auth');
     }
 
@@ -25,12 +26,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //all records
-        $orders = Order::all();
-        $countOrder = count($orders);
-
-        $codes = Code::all();
-        $countCode = count($codes);
 
         //usedCodes by month
         $usedCodesJan = Code::where('used', true)->whereMonth('created_at', '01')->get();
@@ -143,10 +138,8 @@ class HomeController extends Controller
 
         $codeDec = Code::whereMonth('created_at', '12')->get();
         $countCodeDec = count($codeDec);
-
-        return view('admin.home',[   'orderCount' => $countOrder,
-                                    'codeCount' => $countCode,
-                                    'usedCodesJan' => $countUsedCodesJan,
+        //return to admin homepage with all the data
+        return view('admin.home',['usedCodesJan' => $countUsedCodesJan,
                                     'usedCodesFeb' => $countUsedCodesFeb,
                                     'usedCodesMar' => $countUsedCodesMar,
                                     'usedCodesApr' => $countUsedCodesApr,

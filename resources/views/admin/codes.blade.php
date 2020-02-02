@@ -2,11 +2,13 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
+            <!--add delete component for each code-->
             @foreach($codes as $code)
                 @component('components.delete-code-component', ['id' => $code->id]) @endcomponent
             @endforeach
             @include('messages.messages')
             <div class="table-responsive-xl">
+                <!--show table with codes-->
                 <table class="table table-dark">
                     <thead>
                     <tr>

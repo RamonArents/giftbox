@@ -2,11 +2,13 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
+            <!--add delete component for each card-->
             @foreach($cards as $card)
                 @component('components.delete-card-component', ['id' => $card->id]) @endcomponent
             @endforeach
             @include('messages.messages')
             <div class="table-responsive-xl">
+                <!--show table with cards-->
                 <table class="table table-dark">
                     <thead>
                     <tr>

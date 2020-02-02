@@ -5,12 +5,13 @@
             @include('messages.messages')
         </div>
         <div class="text-center">
-            <!--livestream by twitch-->
+            <!--livestream by Twitch-->
             <iframe
                     src="https://player.twitch.tv/?channel=giftbox_hsleiden"
                     frameborder="0"
                     allowfullscreen="true"
                     scrolling="no"></iframe>
+                <!--use code-->
                 <form action="{{ action('UserPageController@useCode') }}" method="post">
                     {{ csrf_field() }}
                     <div class="form-group col-xl-3 mx-auto">

@@ -50,6 +50,7 @@ class UserPageController extends Controller
             $mollie = $this->APIKeyData();
             //number of codes to save
             $numberOfCodes = $request->input('numberOfCodes');
+            //format the number of codes to a String for Mollie. This is also the amount the user has to pay.
             $totalEuros = number_format($numberOfCodes, 2);
             //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
 //            if($request->input('paymethod') == 'ideal'){
@@ -58,14 +59,11 @@ class UserPageController extends Controller
 //                $payMethod = 'paypal'; // or creditcard.
 //            }
             $payMethod = 'ideal';
-            /*
-             * Generate a unique order id for this example. It is important to include this unique attribute
-             * in the redirectUrl (below) so a proper return page can be shown to the customer.
-             */
+            //unique order_id
             $orderNumber = time();
             /*
              * Payment parameters:
-             *   amount        Amount in EUROs.
+             *   amount        Amount in EUROs. (currency can be changed)
              *   description   Description of the payment.
              *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
              *   webhookUrl    Webhook location, used to report when the payment changes state.
@@ -103,7 +101,7 @@ class UserPageController extends Controller
 
             $orderTableId = Order::where('orderNumber', $orderNumber)->first();
             for($i = 0; $i < (int) $numberOfCodes; $i++){
-                //create tickets as many as the numberOfCodes
+                //create codes as many as the numberOfCodes
                 $code = new Code;
                 $code->order_id = $orderTableId->id;
                 $code->codeNumber = rand(1, 1000000000);
@@ -148,43 +146,48 @@ class UserPageController extends Controller
     }
     /**
      * Gets the payment status other than paid
-     * @return, the payed view with the status
+     * @return, the order_status view with the status
      */
     public function getOrderStatus(){
         return view('order_status');
     }
 
     /**
-     * Function to activate the candles
+     * Function to activate the LEDS
      * @param Request to get the request from the user
      * @return doneer.blade.php
      */
     public function useCode(Request $request){
-        //get the right ticket
+        //get the right code
         $code = $request->input('code');
         $getCode = Code::where('codeNumber', $code)->first();
-        //check if the ticket exists or is already used
+        //check if the code exists or is already used
         if(!isset($getCode)){
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld bestaat niet.');
         }else if($getCode->used == true){
             return redirect()->route('donatiepage')->with('error', 'De code die u heeft ingevuld is al gebruikt.');
         }
         else{
+            //store the LEDS in ledjes.json
             $leds = file_get_contents(storage_path('ledjes.json'));
             $ledsData = json_decode($leds, true);
-
+            //make an array with 31 LEDS (the others are reserved for the RFID)
             $ledArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
-            $ledsData['led_list'] = $ledArray[0]; //array_rand($ledArray, 1)
+            //add the selected LED to the list
+            $ledsData['led_list'] = $ledArray[0];
+            //put the LED in the list
             $newLeds = json_encode($ledsData, JSON_PRETTY_PRINT);
             file_put_contents(storage_path('ledjes.json'), stripslashes($newLeds));
+            //remove the first LED from the array
             unset($ledArray[$ledsData['led_list']]);
-
+            //the code is used, so we update the database
             $getCode->used = true;
             $getCode->save();
-
+            //turn the LED off after a certain amount of time (this might not be working. If so look for another solution)
             if(time() > time() + 10){
                 array_unshift($ledArray, $ledsData['led_list']);
             }
+            //redirect to the doneer page
             return redirect()->route('donatiepage')->with('success', 'U lampje brand nu. U heeft lampje ' . $ledsData['led_list']);
         }
     }
@@ -209,16 +212,18 @@ class UserPageController extends Controller
      * @return redirect to view opladen
      */
     public function addBalance(Request $request){
+        //get the cardNumber
         $cardNumber = $request->input('card');
-
+        //select the right Card
         $selectedCard = Card::where('cardNumber', $cardNumber)->first();
-
+        // check if the card exists
         if(!isset($selectedCard)){
             return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
         }else {
             try {
                 //initialize Mollie
                 $mollie = $this->APIKeyData();
+                //get the amount the user want to add to his/her card
                 $amount = $request->input('amount');
                 $totalEuros = number_format($amount, 2);
                 //check if the user wants to pay with ideal or paypal (this can later be included in the Mollie profile)
@@ -228,19 +233,7 @@ class UserPageController extends Controller
 //                    $payMethod = 'paypal'; // or creditcard. Ask the right value to the employer
 //                }
                 $payMethod = 'ideal';
-                /*
-                 * Generate a unique order id for this example. It is important to include this unique attribute
-                 * in the redirectUrl (below) so a proper return page can be shown to the customer.
-                 */
-                //$orderNumber = time();
-                /*
-                 * Payment parameters:
-                 *   amount        Amount in EUROs.
-                 *   description   Description of the payment.
-                 *   redirectUrl   Redirect location. The customer will be redirected there after the payment.
-                 *   webhookUrl    Webhook location, used to report when the payment changes state.
-                 *   metadata      Custom metadata that is stored with the payment.
-                 */
+                //add the data to the Mollie object
                 $payment = $mollie->payments->create([
                     "amount" => [
                         "currency" => "EUR",
@@ -275,17 +268,16 @@ class UserPageController extends Controller
     }
     /**
      * Function to finish the payment
-     * @param Code object
+     * @param $cardNumber
      * @return view doneer
      */
     public function finishPaymentAddToCard($cardNumber){
         //get the right order from the DB
         $card = Card::where('cardNumber', $cardNumber)->first();
+        //initialize Mollie
         $mollie = $this->APIKeyData();
         //find the Mollie payment
         $payment = $mollie->payments->get($card->payment_id);
-        //set the status to paid
-//        $payment->status = 'paid';
         // if the order isn't paid, return a page with the current status
         if (!$payment->isPaid()) {
             return view('order_status', [
@@ -295,9 +287,10 @@ class UserPageController extends Controller
         }
         //convert payment amount to number
         $amount = intval($payment->amount);
+        //add the amount to the balance and save the new value
         $card->balance =  $card->balance + $amount;
         $card->save();
-        //redirect to send email with the codes
+        //redirect to the opladen view
         return redirect()->route('getBalance')->with('success', 'Kaart succesvol opgeladen. Uw saldo is €' . $card->balance);
     }
     /**
@@ -306,13 +299,15 @@ class UserPageController extends Controller
      * @return redirect to view opladen
      */
     public function getBalanceFromDB(Request $request){
+        //get the cardNumber
         $cardNumber = $request->input('cardNumber');
-
+        //get the right card from the DB
         $getBalance = Card::where('cardNumber', $cardNumber)->first();
-
+        // check if the cardNumber exists
         if(!isset($getBalance)){
             return redirect()->route('getBalance')->with('error', 'Het kaartnummer bestaat niet.');
         }else {
+            //return to the opalden view with the actual balance
             return redirect()->route('getBalance')->with('success', 'Uw saldo is €' . $getBalance->balance);
         }
     }

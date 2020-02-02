@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <!--edit an order-->
     <form action="{{ action('AdminController@editOrder', ['id' => $order->id]) }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">
@@ -13,6 +14,7 @@
         <div class="form-group col-xl-3 mx-auto">
             <label for="paymentStatus">Betaal status:</label>
             <select id="paymentStatus" name="paymentStatus" class="mdb-select md-form">
+                <!--To get the actual payment status, this lambda expression is used to set the acutal one on selected-->
                 <option value="paid" {{ $order->paymentStatus == 'paid' ? 'selected' : '' }}>paid</option>
                 <option value="open"{{ $order->paymentStatus == 'open' ? 'selected' : '' }}>open</option>
                 <option value="pending"{{ $order->paymentStatus == 'pending' ? 'selected' : '' }}>pending</option>

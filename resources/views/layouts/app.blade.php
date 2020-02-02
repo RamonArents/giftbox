@@ -39,7 +39,7 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <!-- Authentication Links -->
+                        <!-- User links -->
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('homepage') }}">Home</a>
@@ -54,6 +54,7 @@
                                 <a class="nav-link" href="{{ route('getBalance') }}">Saldo opladen</a>
                             </li>
                         @else
+                            <!--admin links-->
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('homepage') }}">Home</a>
                             </li>
@@ -99,7 +100,5 @@
             @yield('content')
         </main>
     </div>
-    <!--Load scripts-->
-    <script type="text/javascript" src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

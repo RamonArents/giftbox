@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+    <!--edit a card-->
     <form action="{{ action('AdminController@editCard', ['id' => $card->id]) }}" method="post">
         {{ csrf_field() }}
         <div class="form-group col-xl-3 mx-auto">

@@ -4,6 +4,7 @@
         <div class="row justify-content-center opladen-width">
             @include('messages.messages')
         </div>
+        <!--check balance-->
         <div class="row justify-content-center opladen-width">
             <h2>Saldo checken</h2>
         </div>
@@ -19,6 +20,7 @@
             </div>
         </form>
         <br />
+        <!--add balance-->
         <div class="row justify-content-center opladen-width">
             <h2>Saldo opladen</h2>
         </div>

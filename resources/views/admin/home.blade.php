@@ -2,18 +2,15 @@
 <!-- for safety reasons is the js included in the blade instead of an external js file-->
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script>
+    //load Google Charts
     google.charts.load("current", {packages:['corechart']});
     google.charts.setOnLoadCallback(drawOrderChart);
     /**
-     * Display statistics of the order table
-     * @return void, show histogram with the order data
+     * Display statistics of the orders and codes
+     * @return void, show histogram with the order/code data
      */
     function drawOrderChart() {
-        // all data
-        let orderCount = $('.orderCount').data('order-count');
-        let codeCount = $('.codeCount').data('code-count');
-        let usedCodeCount = $('.usedCodeCount').data('used-code-count');
-        // orders by month
+        // orders by month (gets data attribute data-order-{month})
         let orderJan = $('.orderJan').data('order-jan');
         let orderFeb = $('.orderFeb').data('order-feb');
         let orderMar = $('.orderMar').data('order-mar');
@@ -52,7 +49,7 @@
         let usedCodeOkt = $('.usedCodeOkt').data('used-code-okt');
         let usedCodeNov = $('.usedCodeNov').data('used-code-nov');
         let usedCodeDec = $('.usedCodeDec').data('used-code-dec');
-        // Some raw data (not necessarily accurate)
+        // Show data in the Graph
         let data = google.visualization.arrayToDataTable([
             ['Maand', 'Orders', 'Codes', 'Gebruikte codes'],
             ['Jan',  orderJan, codeJan, usedCodeJan,],
@@ -68,7 +65,7 @@
             ['nov',  orderNov, codeNov, usedCodeNov,  ],
             ['dec',  orderDec, codeDec, usedCodeDec,  ]
         ]);
-
+        //change options, labels, style etc. here
         let options = {
             title : 'Orders per maand',
             vAxis: {title: 'Orders'},
@@ -76,10 +73,11 @@
             legend: {position: 'top', textStyle: {fontSize: 10}},
             seriesType: 'bars',
             series: {5: {type: 'line'}}        };
-
+        //show the Graph on the page
         let chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
         chart.draw(data, options);
     }
+    //make the Graph responsive when the screen gets smaller. If you are developing you need to refresh the page to see the result.
     $(document).ready(function () {
         $(window).resize(function(){
             drawOrderChart();
@@ -100,11 +98,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                        <!-- all data-->
-                        {{--<div class="orderCount" data-order-count="{{ $orderCount }}"></div>--}}
-                        {{--<div class="codeCount" data-code-count="{{ $codeCount }}"></div>--}}
-                        {{--<div class="usedCodeCount" data-used-code-count="{{ $usedCodeCount }}"></div>--}}
-                        <!-- orders by month-->
+                        <!-- orders by month (the data from the controller is added in the data attribute, so it can be used in the Graph)-->
                         <div class="orderJan" data-order-jan="{{ $orderJan }}"></div>
                         <div class="orderFeb" data-order-feb="{{ $orderFeb }}"></div>
                         <div class="orderMar" data-order-mar="{{ $orderMar }}"></div>

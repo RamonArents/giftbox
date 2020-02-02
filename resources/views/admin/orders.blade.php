@@ -3,10 +3,12 @@
     <div class="container">
         <div class="row justify-content-center">
             @include('messages.messages')
+            <!--add delete component for each order-->
             @foreach($orders as $order)
                 @component('components.delete-order-component', ['id' => $order->id]) @endcomponent
             @endforeach
                 <div class="table-responsive-xl">
+                 <!--show table with orders-->
                 <table class="table table-dark">
                     <thead>
                     <tr>
