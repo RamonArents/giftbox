@@ -11,10 +11,11 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        //you can add admin users here. There is no limit for users. Just copy the object if you want more
         DB::table('users')->insert([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('LAQWrR31'),
+            'name' => '',
+            'email' => '',
+            'password' => Hash::make(''),
         ]);
     }
 }
